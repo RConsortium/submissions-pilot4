@@ -4,11 +4,18 @@ project:
   
 website:
   title: "Submissions WG Pilot 4"
+  site-url: "https://rconsortium.github.io/submissions-pilot4"
+  repo-url: "https://github.com/RConsortium/submissions-pilot4"
+  repo-actions: [edit, issue]
   navbar:
     left:
       - href: index.qmd
         text: Home
       - about.qmd
+    right:
+      - icon: github
+        href: https://github.com/RConsortium/submissions-pilot4
+        aria-label: GitHub Site
 
 format:
   html:
