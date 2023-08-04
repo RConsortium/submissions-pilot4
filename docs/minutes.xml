@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Submissions WG Pilot 4</title>
+<link>https://rconsortium.github.io/submissions-pilot4/minutes.html</link>
+<atom:link href="https://rconsortium.github.io/submissions-pilot4/minutes.xml" rel="self" type="application/rss+xml"/>
+<description></description>
+<generator>quarto-1.2.313</generator>
+<lastBuildDate>Fri, 04 Aug 2023 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Minutes 2023-08-04</title>
+  <dc:creator>Eric Nantz</dc:creator>
+  <link>https://rconsortium.github.io/submissions-pilot4/minutes/2023-08-04/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>::: {.callout-tip collapse=“true”} ## View Attendee List</p>
+<ul>
+<li>Andrew Borgman (Bristol Myers Squibb)</li>
+<li>André Veríssimo (Appsilon)</li>
+<li>Eric Nantz (Eli Lilly)</li>
+<li>Ismael Alejandro Rodriguez Rodriguez (Appsilon)</li>
+<li>Iwona Matyjaszek (Appsilon)</li>
+<li>Mariusz Helim (Appsilon)</li>
+<li>Nate Mockler (Biogen)</li>
+<li>Paweł Rzymkiewicz (Appsilon)</li>
+<li>Pedro Silva (Appsilon)</li>
+<li>Sam Parmar (Pfizer)</li>
+<li>Vedha Viyash (Appsilon):::</li>
+</ul>
+<section id="add-minutes-here" class="level2">
+<h2 class="anchored" data-anchor-id="add-minutes-here">Add Minutes Here</h2>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://rconsortium.github.io/submissions-pilot4/minutes/2023-08-04/index.html</guid>
+  <pubDate>Fri, 04 Aug 2023 00:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

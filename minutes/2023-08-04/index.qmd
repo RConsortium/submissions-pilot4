@@ -1,0 +1,48 @@
+---
+title: "Minutes 2023-08-04"
+date: 2023-08-04
+---
+
+::: {.callout-tip collapse="true"}
+## View Attendee List
+
+- Andrew Borgman (Bristol Myers Squibb)
+- André Veríssimo (Appsilon)
+- Eric Nantz (Eli Lilly)
+- Ismael Alejandro Rodriguez Rodriguez (Appsilon)
+- Iwona Matyjaszek (Appsilon)
+- Mariusz Helim (Appsilon)
+- Nate Mockler (Biogen)
+- Paweł Rzymkiewicz (Appsilon)
+- Pedro Silva (Appsilon)
+- Sam Parmar (Pfizer)
+- Vedha Viyash (Appsilon)
+:::
+
+## Recap of Container / WebAssembly Prototypes
+
+Appsilon's team joined the call to share progress and key takeaways from their investigation into the container and WebAssembly approaches to serve the Pilot 2 Shiny application. You can view their slides [here](static/FDA%20Pilot%204%20-%20Sprint%201%20wrap-up%20(updated).pdf) as well as the code repository for the container files at [github.com/Appsilon/experimental-fda-submission-4-podman/](https://github.com/Appsilon/experimental-fda-submission-4-podman/). Highlights of the summary:
+
+* The container version of the application has no issues replicating the experience of the Pilot 2 version. The end user needs to have [podman](https://podman.io/) installed on their machine.
+* Another requirement is the user is able to access an image repository that holds container images used to build the container
+* FDA is actively investigating the process of getting podman available on their machines, and verifying how they can access pre-built container images.
+
+WebAssembly summary:
+
+* An early prototype that uses a built-in R data set with certain features such as Teal module filters is available at [shiny-standalone-webr-demo.netlify.app/](https://shiny-standalone-webr-demo.netlify.app/), with the code available at [github.com/Appsilon/experimental-teal-webr-demo](https://github.com/Appsilon/experimental-teal-webr-demo).
+* Due to complexities with compiling R packages, it is not currently feasible to replicate the Pilot 2 application in terms of dependencies, especially true for R packages that require custom compilation.
+* The development of WebR is very fast moving. Hence there can be weekly changes to the base API of how it works
+* The current state requires that the user run a web-based serving platform in order for the app to be compiled in the browser. We will have further discussions on what is the easiest way the FDA reviewers could install a simple web-serving runtime in order to run the app. 
+
+## Recent Feedback from FDA
+
+In a previous call, Eric shared the current status of the container and WebAssembly prototypes with FDA reviewers with Paule Schuette and Hye-Soo Cho. The biggest takeways are the following:
+
+* There are a few logistics to sort out with the container runtime. Paul mentioned that their group does not currently have podman installed, and they will need to discuss their IT group. Another group within FDA utilizes podman and a custom image registry, which should help in the process.
+* The FDA reviewers see great potential in the WebAssembly version of the Pilot. In light of the aforementioned constraints on package installation, they agree with creating a minimal version of the Pilot 2 application that uses dependencies available in the current package list of WebR-compliant packages. The purpose of this pilot is to explore the feasibility of novel methods of encapsulating and transferring the application, and they do not want to hold back the WebAssembly effort by trying to replicate the Pilot 2 application verbatim.
+* Paul and Hye-Soo shared clarifications regarding the transfer of files in the electronic submission. In Pilot 2, the development team utilized [pkglite](https://merck.github.io/pkglite/) to bundle the R scripts and other package files as a text file, which required the FDA reviewers to un-bundle the package on their local computers before proceeding with the rest of the application installation and execution. However, it was clarified that sponsors could assemble the artifacts of a submission into a `.zip` archive, bringing much more flexibility to how we can transfer the files necessary for Pilot 4.
+
+## Next Steps
+
+* Explore options for installing the necessary runtime for executing the WebAssembly version of the application.
+* Continue dialog with the FDA reviewers on their container setup and ability to access public image repositories.

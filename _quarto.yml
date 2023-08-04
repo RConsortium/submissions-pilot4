@@ -11,7 +11,11 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - minutes.qmd
+      - text: "Site Development"
+        menu: 
+          - href: minutes_prep.qmd
+            text: Minutes Draft Gen
     right:
       - icon: github
         href: https://github.com/RConsortium/submissions-pilot4
@@ -24,6 +28,3 @@ format:
       dark: darkly
     css: styles.css
     toc: true
-
-
-
