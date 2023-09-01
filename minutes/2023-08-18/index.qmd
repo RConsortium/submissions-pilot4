@@ -1,0 +1,35 @@
+---
+title: "Minutes 2023-08-18"
+date: 2023-08-18
+---
+
+::: {.callout-tip collapse="true"}
+## View Attendee List
+
+- André Veríssimo (Appsilon)
+- Eric Nantz (Eli Lilly)
+- George Stagg (Posit)
+- Paweł Rzymkiewicz (Appsilon)
+- Sam Parmar (Pfizer)
+- Winston Chang (Posit)
+:::
+
+## Web-assembly and WebR Discussion
+
+* George Stagg and Winston Chang joined our working group session to discuss the web-assembly portion of Pilot 4
+* To run the web-assembly version of the application, the app must be executed in a web server
+* The [{httpuv}`](https://github.com/rstudio/httpuv) R package provides a shim that webR uses within Appsilon's [teal webR demo app](https://github.com/Appsilon/experimental-teal-webr-demo) which is similar to a setup with a Python Shiny app running in [Shinylive](https://shiny.posit.co/py/docs/shinylive.html)
+* In the (near) future, there will be a Shinylive R version with a package that helps the user create static files directly from a Shiny app written in R.
+* For this pilot, we could send the FDA reviewers a simple R script that sets up `{httpuv}` to run a web server that outputs a link they can click on to view the application locally. In fact, there is now a new function called [`runStaticServer`](https://github.com/rstudio/httpuv/pull/380) in the development version of `{httpuv}` that could be used. Hopefully the new version of `{httpuv}` will land on CRAN soon.
+* Now that we've verified that the FDA reviewers can accept compressed archives (`.zip`) inside a transfer in the eCTD gateway, the Pilot 4 app files could be compressed into an archive that uppacks to a directory containing all of the webR and web-assembly files in a subdirectory, with an R script that starts `{httpuv}` and runs the files and outputs a local link to view the app.
+* Verified that R 4.2.2 (version used for the Pilot 2 application) contains binary installations of `{httpuv}`
+* Web-assembly applications creat a virtual file system as part of its execution. In terms of how additional R packges are loaded into the application, it is recommended to have these packages in the virtual file system.
+* The package `.tar.gz` installers can be downloaded from the [WebR binary R package repository](https://repo.r-wasm.org/) and stored in the compressed archive for the app.
+* There aren't real benefits to having Shiny-related packages included directly in the WebR runtime, as we aren't in the early days of tech anymore
+* Initial loading of the app requires an upfront step of reading the package files in the web-assembly process that takes a bit of time
+* To enhance the current Appsilon web-assembly demo app, we need to download the binary `.tar.gz` installers of the package files as part of the package remote sources. It would also required the creation of a `PACKAGES` text file which can be done in R directly as seen in [this documentation](https://www.rdocumentation.org/packages/tools/versions/3.6.2/topics/write_PACKAGES).
+* If we need to obtain a specific version of the web-assembly engine, it could be done via Node and NPM if that is a critical need.
+* Down the road, it might be possible to save a particular version of the web browser as a way to ensure web-assembly runtime reproducibility
+* George reported that he's had situations were the same binaries used in a web-assembly app led to different results
+* George recommends that instead of downloading the WebR minified JS from a CDN, that we download the minified JS and store it in the app archive. Hence changing the lines [here](https://github.com/Appsilon/experimental-teal-webr-demo/blob/9b2655f91e89775ef00eedfd2a2eb1adecd275bc/shiny.js#L1C41-L1C41) to a relative URL.
+* A key advantage from a security standpoint is that any binaries executed by web-assembly are gauranteed to be running in a browser and using a sandboxed virtual file system, which would eliminate possibilities of any host system modifications.

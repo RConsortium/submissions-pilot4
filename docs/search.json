@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "minutes.html",
+    "href": "minutes.html",
+    "title": "Meeting Minutes",
+    "section": "",
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nAug 18, 2023\n\n\nMinutes 2023-08-18\n\n\nEric Nantz\n\n\n\n\nAug 4, 2023\n\n\nMinutes 2023-08-04\n\n\nEric Nantz\n\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -42,25 +49,11 @@
     "text": "Setup\nIn your local copy of this repository, create a sub-directory within the minutes directory to hold files associated with this meeting’s minutes. Based on your selection above, create the following directory:\n\nmeeting_print\n\n\n\n\n\n\nCopy the text in the output below into a new Quarto document named index.qmd.\n\nsilly = html`${Array.from(new Set(people_selection.map(c => c.name2)))\n.sort()\n.map(c => `- ${c}`)\n.join(\"\\n\")}`\n\nsilly2 = html`<pre>---\ntitle: \"Minutes ${meeting_print}\"\ndate: ${meeting_print}\n---\n\n::: {.callout-tip collapse=\"true\"}\n## View Attendee List\n\n${silly}:::\n\n## Add Minutes Here\n\n</pre>`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nsilly2"
   },
   {
-    "objectID": "minutes.html",
-    "href": "minutes.html",
-    "title": "Meeting Minutes",
-    "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n         \n          Author\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nAug 4, 2023\n\n\nMinutes 2023-08-04\n\n\nEric Nantz\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "minutes/2023-08-04/index.html",
     "href": "minutes/2023-08-04/index.html",
     "title": "Minutes 2023-08-04",
     "section": "",
     "text": "View Attendee List\n\n\n\n\n\n\nAndrew Borgman (Bristol Myers Squibb)\nAndré Veríssimo (Appsilon)\nEric Nantz (Eli Lilly)\nIsmael Alejandro Rodriguez Rodriguez (Appsilon)\nIwona Matyjaszek (Appsilon)\nMariusz Helim (Appsilon)\nNate Mockler (Biogen)\nPaweł Rzymkiewicz (Appsilon)\nPedro Silva (Appsilon)\nSam Parmar (Pfizer)\nVedha Viyash (Appsilon)"
-  },
-  {
-    "objectID": "minutes/2023-08-04/index.html#add-minutes-here",
-    "href": "minutes/2023-08-04/index.html#add-minutes-here",
-    "title": "Minutes 2023-08-04",
-    "section": "Add Minutes Here",
-    "text": "Add Minutes Here"
   },
   {
     "objectID": "minutes/2023-08-04/index.html#recap-of-container-webassembly-prototypes",
@@ -82,5 +75,19 @@
     "title": "Minutes 2023-08-04",
     "section": "Next Steps",
     "text": "Next Steps\n\nExplore options for installing the necessary runtime for executing the WebAssembly version of the application.\nContinue dialog with the FDA reviewers on their container setup and ability to access public image repositories."
+  },
+  {
+    "objectID": "minutes/2023-08-18/index.html",
+    "href": "minutes/2023-08-18/index.html",
+    "title": "Minutes 2023-08-18",
+    "section": "",
+    "text": "View Attendee List\n\n\n\n\n\n\nAndré Veríssimo (Appsilon)\nEric Nantz (Eli Lilly)\nGeorge Stagg (Posit)\nPaweł Rzymkiewicz (Appsilon)\nSam Parmar (Pfizer)\nWinston Chang (Posit)"
+  },
+  {
+    "objectID": "minutes/2023-08-18/index.html#web-assembly-and-webr-discussion",
+    "href": "minutes/2023-08-18/index.html#web-assembly-and-webr-discussion",
+    "title": "Minutes 2023-08-18",
+    "section": "Web-assembly and WebR Discussion",
+    "text": "Web-assembly and WebR Discussion\n\nGeorge Stagg and Winston Chang joined our working group session to discuss the web-assembly portion of Pilot 4\nTo run the web-assembly version of the application, the app must be executed in a web server\nThe {httpuv}` R package provides a shim that webR uses within Appsilon’s teal webR demo app which is similar to a setup with a Python Shiny app running in Shinylive\nIn the (near) future, there will be a Shinylive R version with a package that helps the user create static files directly from a Shiny app written in R.\nFor this pilot, we could send the FDA reviewers a simple R script that sets up {httpuv} to run a web server that outputs a link they can click on to view the application locally. In fact, there is now a new function called runStaticServer in the development version of {httpuv} that could be used. Hopefully the new version of {httpuv} will land on CRAN soon.\nNow that we’ve verified that the FDA reviewers can accept compressed archives (.zip) inside a transfer in the eCTD gateway, the Pilot 4 app files could be compressed into an archive that uppacks to a directory containing all of the webR and web-assembly files in a subdirectory, with an R script that starts {httpuv} and runs the files and outputs a local link to view the app.\nVerified that R 4.2.2 (version used for the Pilot 2 application) contains binary installations of {httpuv}\nWeb-assembly applications creat a virtual file system as part of its execution. In terms of how additional R packges are loaded into the application, it is recommended to have these packages in the virtual file system.\nThe package .tar.gz installers can be downloaded from the WebR binary R package repository and stored in the compressed archive for the app.\nThere aren’t real benefits to having Shiny-related packages included directly in the WebR runtime, as we aren’t in the early days of tech anymore\nInitial loading of the app requires an upfront step of reading the package files in the web-assembly process that takes a bit of time\nTo enhance the current Appsilon web-assembly demo app, we need to download the binary .tar.gz installers of the package files as part of the package remote sources. It would also required the creation of a PACKAGES text file which can be done in R directly as seen in this documentation.\nIf we need to obtain a specific version of the web-assembly engine, it could be done via Node and NPM if that is a critical need.\nDown the road, it might be possible to save a particular version of the web browser as a way to ensure web-assembly runtime reproducibility\nGeorge reported that he’s had situations were the same binaries used in a web-assembly app led to different results\nGeorge recommends that instead of downloading the WebR minified JS from a CDN, that we download the minified JS and store it in the app archive. Hence changing the lines here to a relative URL.\nA key advantage from a security standpoint is that any binaries executed by web-assembly are gauranteed to be running in a browser and using a sandboxed virtual file system, which would eliminate possibilities of any host system modifications."
   }
 ]

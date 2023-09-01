@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Eric Nantz">
-<meta name="dcterms.date" content="2023-08-04">
+<meta name="dcterms.date" content="2023-08-18">
 
-<title>Submissions WG Pilot 4 - Minutes 2023-08-04</title>
+<title>Submissions WG Pilot 4 - Minutes 2023-08-18</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -122,7 +122,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Minutes 2023-08-04</h1>
+      <h1 class="title">Minutes 2023-08-18</h1>
                       </div>
   </div>
     
@@ -139,7 +139,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 4, 2023</p>
+        <p class="date">August 18, 2023</p>
       </div>
     </div>
     
@@ -155,11 +155,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#recap-of-container-webassembly-prototypes" id="toc-recap-of-container-webassembly-prototypes" class="nav-link active" data-scroll-target="#recap-of-container-webassembly-prototypes">Recap of Container / WebAssembly Prototypes</a></li>
-  <li><a href="#recent-feedback-from-fda" id="toc-recent-feedback-from-fda" class="nav-link" data-scroll-target="#recent-feedback-from-fda">Recent Feedback from FDA</a></li>
-  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  <li><a href="#web-assembly-and-webr-discussion" id="toc-web-assembly-and-webr-discussion" class="nav-link active" data-scroll-target="#web-assembly-and-webr-discussion">Web-assembly and WebR Discussion</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/RConsortium/submissions-pilot4/edit/main/minutes/2023-08-04/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/RConsortium/submissions-pilot4/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/RConsortium/submissions-pilot4/edit/main/minutes/2023-08-18/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/RConsortium/submissions-pilot4/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -180,51 +178,36 @@ View Attendee List
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
-<li>Andrew Borgman (Bristol Myers Squibb)</li>
 <li>André Veríssimo (Appsilon)</li>
 <li>Eric Nantz (Eli Lilly)</li>
-<li>Ismael Alejandro Rodriguez Rodriguez (Appsilon)</li>
-<li>Iwona Matyjaszek (Appsilon)</li>
-<li>Mariusz Helim (Appsilon)</li>
-<li>Nate Mockler (Biogen)</li>
+<li>George Stagg (Posit)</li>
 <li>Paweł Rzymkiewicz (Appsilon)</li>
-<li>Pedro Silva (Appsilon)</li>
 <li>Sam Parmar (Pfizer)</li>
-<li>Vedha Viyash (Appsilon)</li>
+<li>Winston Chang (Posit)</li>
 </ul>
 </div>
 </div>
 </div>
-<section id="recap-of-container-webassembly-prototypes" class="level2">
-<h2 class="anchored" data-anchor-id="recap-of-container-webassembly-prototypes">Recap of Container / WebAssembly Prototypes</h2>
-<p>Appsilon’s team joined the call to share progress and key takeaways from their investigation into the container and WebAssembly approaches to serve the Pilot 2 Shiny application. You can view their slides <a href="static/FDA Pilot 4 - Sprint 1 wrap-up (updated).pdf">here</a> as well as the code repository for the container files at <a href="https://github.com/Appsilon/experimental-fda-submission-4-podman/">github.com/Appsilon/experimental-fda-submission-4-podman/</a>. Highlights of the summary:</p>
+<section id="web-assembly-and-webr-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="web-assembly-and-webr-discussion">Web-assembly and WebR Discussion</h2>
 <ul>
-<li>The container version of the application has no issues replicating the experience of the Pilot 2 version. The end user needs to have <a href="https://podman.io/">podman</a> installed on their machine.</li>
-<li>Another requirement is the user is able to access an image repository that holds container images used to build the container</li>
-<li>FDA is actively investigating the process of getting podman available on their machines, and verifying how they can access pre-built container images.</li>
-</ul>
-<p>WebAssembly summary:</p>
-<ul>
-<li>An early prototype that uses a built-in R data set with certain features such as Teal module filters is available at <a href="https://shiny-standalone-webr-demo.netlify.app/">shiny-standalone-webr-demo.netlify.app/</a>, with the code available at <a href="https://github.com/Appsilon/experimental-teal-webr-demo">github.com/Appsilon/experimental-teal-webr-demo</a>.</li>
-<li>Due to complexities with compiling R packages, it is not currently feasible to replicate the Pilot 2 application in terms of dependencies, especially true for R packages that require custom compilation.</li>
-<li>The development of WebR is very fast moving. Hence there can be weekly changes to the base API of how it works</li>
-<li>The current state requires that the user run a web-based serving platform in order for the app to be compiled in the browser. We will have further discussions on what is the easiest way the FDA reviewers could install a simple web-serving runtime in order to run the app.</li>
-</ul>
-</section>
-<section id="recent-feedback-from-fda" class="level2">
-<h2 class="anchored" data-anchor-id="recent-feedback-from-fda">Recent Feedback from FDA</h2>
-<p>In a previous call, Eric shared the current status of the container and WebAssembly prototypes with FDA reviewers with Paule Schuette and Hye-Soo Cho. The biggest takeways are the following:</p>
-<ul>
-<li>There are a few logistics to sort out with the container runtime. Paul mentioned that their group does not currently have podman installed, and they will need to discuss their IT group. Another group within FDA utilizes podman and a custom image registry, which should help in the process.</li>
-<li>The FDA reviewers see great potential in the WebAssembly version of the Pilot. In light of the aforementioned constraints on package installation, they agree with creating a minimal version of the Pilot 2 application that uses dependencies available in the current package list of WebR-compliant packages. The purpose of this pilot is to explore the feasibility of novel methods of encapsulating and transferring the application, and they do not want to hold back the WebAssembly effort by trying to replicate the Pilot 2 application verbatim.</li>
-<li>Paul and Hye-Soo shared clarifications regarding the transfer of files in the electronic submission. In Pilot 2, the development team utilized <a href="https://merck.github.io/pkglite/">pkglite</a> to bundle the R scripts and other package files as a text file, which required the FDA reviewers to un-bundle the package on their local computers before proceeding with the rest of the application installation and execution. However, it was clarified that sponsors could assemble the artifacts of a submission into a <code>.zip</code> archive, bringing much more flexibility to how we can transfer the files necessary for Pilot 4.</li>
-</ul>
-</section>
-<section id="next-steps" class="level2">
-<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
-<ul>
-<li>Explore options for installing the necessary runtime for executing the WebAssembly version of the application.</li>
-<li>Continue dialog with the FDA reviewers on their container setup and ability to access public image repositories.</li>
+<li>George Stagg and Winston Chang joined our working group session to discuss the web-assembly portion of Pilot 4</li>
+<li>To run the web-assembly version of the application, the app must be executed in a web server</li>
+<li>The <a href="https://github.com/rstudio/httpuv">{httpuv}`</a> R package provides a shim that webR uses within Appsilon’s <a href="https://github.com/Appsilon/experimental-teal-webr-demo">teal webR demo app</a> which is similar to a setup with a Python Shiny app running in <a href="https://shiny.posit.co/py/docs/shinylive.html">Shinylive</a></li>
+<li>In the (near) future, there will be a Shinylive R version with a package that helps the user create static files directly from a Shiny app written in R.</li>
+<li>For this pilot, we could send the FDA reviewers a simple R script that sets up <code>{httpuv}</code> to run a web server that outputs a link they can click on to view the application locally. In fact, there is now a new function called <a href="https://github.com/rstudio/httpuv/pull/380"><code>runStaticServer</code></a> in the development version of <code>{httpuv}</code> that could be used. Hopefully the new version of <code>{httpuv}</code> will land on CRAN soon.</li>
+<li>Now that we’ve verified that the FDA reviewers can accept compressed archives (<code>.zip</code>) inside a transfer in the eCTD gateway, the Pilot 4 app files could be compressed into an archive that uppacks to a directory containing all of the webR and web-assembly files in a subdirectory, with an R script that starts <code>{httpuv}</code> and runs the files and outputs a local link to view the app.</li>
+<li>Verified that R 4.2.2 (version used for the Pilot 2 application) contains binary installations of <code>{httpuv}</code></li>
+<li>Web-assembly applications creat a virtual file system as part of its execution. In terms of how additional R packges are loaded into the application, it is recommended to have these packages in the virtual file system.</li>
+<li>The package <code>.tar.gz</code> installers can be downloaded from the <a href="https://repo.r-wasm.org/">WebR binary R package repository</a> and stored in the compressed archive for the app.</li>
+<li>There aren’t real benefits to having Shiny-related packages included directly in the WebR runtime, as we aren’t in the early days of tech anymore</li>
+<li>Initial loading of the app requires an upfront step of reading the package files in the web-assembly process that takes a bit of time</li>
+<li>To enhance the current Appsilon web-assembly demo app, we need to download the binary <code>.tar.gz</code> installers of the package files as part of the package remote sources. It would also required the creation of a <code>PACKAGES</code> text file which can be done in R directly as seen in <a href="https://www.rdocumentation.org/packages/tools/versions/3.6.2/topics/write_PACKAGES">this documentation</a>.</li>
+<li>If we need to obtain a specific version of the web-assembly engine, it could be done via Node and NPM if that is a critical need.</li>
+<li>Down the road, it might be possible to save a particular version of the web browser as a way to ensure web-assembly runtime reproducibility</li>
+<li>George reported that he’s had situations were the same binaries used in a web-assembly app led to different results</li>
+<li>George recommends that instead of downloading the WebR minified JS from a CDN, that we download the minified JS and store it in the app archive. Hence changing the lines <a href="https://github.com/Appsilon/experimental-teal-webr-demo/blob/9b2655f91e89775ef00eedfd2a2eb1adecd275bc/shiny.js#L1C41-L1C41">here</a> to a relative URL.</li>
+<li>A key advantage from a security standpoint is that any binaries executed by web-assembly are gauranteed to be running in a browser and using a sandboxed virtual file system, which would eliminate possibilities of any host system modifications.</li>
 </ul>
 
 

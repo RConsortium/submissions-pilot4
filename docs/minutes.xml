@@ -10,7 +10,23 @@
 <atom:link href="https://rconsortium.github.io/submissions-pilot4/minutes.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.2.313</generator>
-<lastBuildDate>Fri, 04 Aug 2023 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 18 Aug 2023 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Minutes 2023-08-18</title>
+  <dc:creator>Eric Nantz</dc:creator>
+  <link>https://rconsortium.github.io/submissions-pilot4/minutes/2023-08-18/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+
+ ]]></description>
+  <guid>https://rconsortium.github.io/submissions-pilot4/minutes/2023-08-18/index.html</guid>
+  <pubDate>Fri, 18 Aug 2023 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Minutes 2023-08-04</title>
   <dc:creator>Eric Nantz</dc:creator>
@@ -20,7 +36,18 @@
 
 
 
-<p>::: {.callout-tip collapse=“true”} ## View Attendee List</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+View Attendee List
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
 <li>Andrew Borgman (Bristol Myers Squibb)</li>
 <li>André Veríssimo (Appsilon)</li>
@@ -32,10 +59,42 @@
 <li>Paweł Rzymkiewicz (Appsilon)</li>
 <li>Pedro Silva (Appsilon)</li>
 <li>Sam Parmar (Pfizer)</li>
-<li>Vedha Viyash (Appsilon):::</li>
+<li>Vedha Viyash (Appsilon)</li>
 </ul>
-<section id="add-minutes-here" class="level2">
-<h2 class="anchored" data-anchor-id="add-minutes-here">Add Minutes Here</h2>
+</div>
+</div>
+</div>
+<section id="recap-of-container-webassembly-prototypes" class="level2">
+<h2 class="anchored" data-anchor-id="recap-of-container-webassembly-prototypes">Recap of Container / WebAssembly Prototypes</h2>
+<p>Appsilon’s team joined the call to share progress and key takeaways from their investigation into the container and WebAssembly approaches to serve the Pilot 2 Shiny application. You can view their slides <a href="static/FDA Pilot 4 - Sprint 1 wrap-up (updated).pdf">here</a> as well as the code repository for the container files at <a href="https://github.com/Appsilon/experimental-fda-submission-4-podman/">github.com/Appsilon/experimental-fda-submission-4-podman/</a>. Highlights of the summary:</p>
+<ul>
+<li>The container version of the application has no issues replicating the experience of the Pilot 2 version. The end user needs to have <a href="https://podman.io/">podman</a> installed on their machine.</li>
+<li>Another requirement is the user is able to access an image repository that holds container images used to build the container</li>
+<li>FDA is actively investigating the process of getting podman available on their machines, and verifying how they can access pre-built container images.</li>
+</ul>
+<p>WebAssembly summary:</p>
+<ul>
+<li>An early prototype that uses a built-in R data set with certain features such as Teal module filters is available at <a href="https://shiny-standalone-webr-demo.netlify.app/">shiny-standalone-webr-demo.netlify.app/</a>, with the code available at <a href="https://github.com/Appsilon/experimental-teal-webr-demo">github.com/Appsilon/experimental-teal-webr-demo</a>.</li>
+<li>Due to complexities with compiling R packages, it is not currently feasible to replicate the Pilot 2 application in terms of dependencies, especially true for R packages that require custom compilation.</li>
+<li>The development of WebR is very fast moving. Hence there can be weekly changes to the base API of how it works</li>
+<li>The current state requires that the user run a web-based serving platform in order for the app to be compiled in the browser. We will have further discussions on what is the easiest way the FDA reviewers could install a simple web-serving runtime in order to run the app.</li>
+</ul>
+</section>
+<section id="recent-feedback-from-fda" class="level2">
+<h2 class="anchored" data-anchor-id="recent-feedback-from-fda">Recent Feedback from FDA</h2>
+<p>In a previous call, Eric shared the current status of the container and WebAssembly prototypes with FDA reviewers with Paule Schuette and Hye-Soo Cho. The biggest takeways are the following:</p>
+<ul>
+<li>There are a few logistics to sort out with the container runtime. Paul mentioned that their group does not currently have podman installed, and they will need to discuss their IT group. Another group within FDA utilizes podman and a custom image registry, which should help in the process.</li>
+<li>The FDA reviewers see great potential in the WebAssembly version of the Pilot. In light of the aforementioned constraints on package installation, they agree with creating a minimal version of the Pilot 2 application that uses dependencies available in the current package list of WebR-compliant packages. The purpose of this pilot is to explore the feasibility of novel methods of encapsulating and transferring the application, and they do not want to hold back the WebAssembly effort by trying to replicate the Pilot 2 application verbatim.</li>
+<li>Paul and Hye-Soo shared clarifications regarding the transfer of files in the electronic submission. In Pilot 2, the development team utilized <a href="https://merck.github.io/pkglite/">pkglite</a> to bundle the R scripts and other package files as a text file, which required the FDA reviewers to un-bundle the package on their local computers before proceeding with the rest of the application installation and execution. However, it was clarified that sponsors could assemble the artifacts of a submission into a <code>.zip</code> archive, bringing much more flexibility to how we can transfer the files necessary for Pilot 4.</li>
+</ul>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<ul>
+<li>Explore options for installing the necessary runtime for executing the WebAssembly version of the application.</li>
+<li>Continue dialog with the FDA reviewers on their container setup and ability to access public image repositories.</li>
+</ul>
 
 
 </section>
