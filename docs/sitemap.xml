@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rconsortium.github.io/submissions-pilot4/minutes.html</loc>
-    <lastmod>2023-09-01T14:32:30.326Z</lastmod>
-  </url>
-  <url>
-    <loc>https://rconsortium.github.io/submissions-pilot4/about.html</loc>
-    <lastmod>2023-09-01T14:32:30.658Z</lastmod>
-  </url>
-  <url>
     <loc>https://rconsortium.github.io/submissions-pilot4/index.html</loc>
-    <lastmod>2023-09-01T14:32:30.950Z</lastmod>
+    <lastmod>2024-03-29T16:12:32.169Z</lastmod>
   </url>
   <url>
     <loc>https://rconsortium.github.io/submissions-pilot4/minutes_prep.html</loc>
-    <lastmod>2023-09-01T14:32:33.458Z</lastmod>
+    <lastmod>2024-03-29T16:01:03.263Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rconsortium.github.io/submissions-pilot4/minutes.html</loc>
+    <lastmod>2024-03-29T16:12:25.581Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rconsortium.github.io/submissions-pilot4/about.html</loc>
+    <lastmod>2024-03-29T15:49:26.342Z</lastmod>
   </url>
   <url>
     <loc>https://rconsortium.github.io/submissions-pilot4/minutes/2023-08-04/index.html</loc>
-    <lastmod>2023-09-01T14:32:33.830Z</lastmod>
+    <lastmod>2024-03-29T15:49:26.574Z</lastmod>
   </url>
   <url>
     <loc>https://rconsortium.github.io/submissions-pilot4/minutes/2023-08-18/index.html</loc>
-    <lastmod>2023-09-01T14:58:46.950Z</lastmod>
+    <lastmod>2024-03-29T16:11:22.365Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rconsortium.github.io/submissions-pilot4/minutes/2023-10-23/index.html</loc>
+    <lastmod>2024-03-29T15:59:58.503Z</lastmod>
+  </url>
+  <url>
+    <loc>https://rconsortium.github.io/submissions-pilot4/minutes/2024-03-08/index.html</loc>
+    <lastmod>2024-03-29T16:12:19.833Z</lastmod>
   </url>
 </urlset>

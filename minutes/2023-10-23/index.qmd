@@ -1,0 +1,32 @@
+---
+title: "Minutes 2023-10-23"
+date: 2023-10-23
+---
+
+::: {.callout-tip collapse="true"}
+## View Attendee List
+
+- George Stagg (Posit)
+- Ismael Alejandro Rodriguez Rodriguez (Appsilon)
+- Paweł Rzymkiewicz (Appsilon)
+- Pedro Silva (Appsilon)
+- Sam Parmar (Pfizer)
+:::
+
+## Appsilon Sprint Recap
+
+* While golem and rhino are not currently supported, they are able to use the box package to mimic rhino structure, and they picked a modular structure
+* They had issues with shinylive not liking non-R files, George would like a reproducible example. George says to make sure they are on the latest version of shinylive
+* issues with using cowplot as-is when it is deployed on Netlify, but running locally it is fine. George thingks it could be an issue with Netlify limiting the size of assets
+* Sam: Oh, we might need to make sure we document the port the app will use. Wonder if it is possible that FDA might block it or be using it for another app?
+* They have a build script that will pull down the packages from the webR package binary site
+* George:
+    * Default behavior is that shinylive will download packages from a CDN
+    * Going forward: packages will be distributed with the app automatically
+    * Once this is implemented, everything will be relative and no external dependencies
+    * Packages loading slowly because traditionally binary packages are transferred as compressed tar.gz files. R tries to use an untarring program to unpack on disk. Webassembly cannot use tar, it does not exist in virtual file system. It is slow because it is using a fallback in R itself
+    * They are working on ways to load packages faster in webR. They will make use of the enscriptem file system API to mount system images on the filesystem. No extraction step is needed with this new approach
+    * enscriptem data file system images. George will update the public binary site
+    * Docker image will be available to help build packages into this new framework 
+    * George is writing an R package to help build library into a single data image 
+    * Dev version of webR has webR::mount("/shiny", "http://local/shiny.data")

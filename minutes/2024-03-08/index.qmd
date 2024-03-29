@@ -1,0 +1,36 @@
+---
+title: "Minutes 2024-03-08"
+date: 2024-03-08
+---
+
+::: {.callout-tip collapse="true"}
+## View Attendee List
+
+- Ben Straub (GSK)
+- Eric Nantz (Eli Lilly)
+- Nate Mockler (Biogen)
+- Sam Parmar (Pfizer)
+:::
+
+## Meeting Minutes
+
+* Eric shared the status of his initial tests of the web-assembly version of the application available at https://github.com/RConsortium/submissions-pilot4-webR
+    + Application works successfully when using work computer browser (Edge), however on his Linux machine certain browsers (Edge) were not able to view the application, while other chrome-variant browsers had no issue
+    + Sam mentioned he encountered a few issues running the app in his work browser, but was successful after discussions with IT
+    + Additional testing will be paramount prior to transfer to FDA
+    + Eric will prepare the repository with a few minor enhancements in preparation for wider testing amongst the group. Ben mentioned that with the Pilot 3 effort winding down, there could be additional resources available for testing soon.
+* When the web-R binary packages are being pulled down from the webR CDN, there isn't a clear way to pin those to a specific version, unlike renv when we can indeed control versions of packages installed. A comment on a separate issue https://github.com/posit-dev/r-shinylive/issues/56 indicates there will be a future state when pinning package versions is possible.
+* Ben mentioned an issue they encountered with the emmeans package being updated such that it requires R version 4.3 or greater. We leverage this package in the pilot 4 app. Eric's testing did not encounter any issues with this package, but this note has been logged in the issue tracker for awareness.
+* It is unclear whether that will change, but we will be interested in a future keynote presentation from George Stagg at the upcoming ShinyConf 2024 which is going to address reproducibility in the context of web-assembly and web-R.
+* With the latest CRAN releases of shinylive and httpuv, the pilot 4 setup instructions will ensure the CRAN releases for this packages are installed by the user prior to running the web-assembly version of the application
+* When the web-assembly version of the application is created, the bundle is essentially a massive collection of JavaScript files
+* It is not clear yet whether compiling the web-assembly application results in differences between operating systems.
+* While the current pilot 4 web-assembly repository contains a pre-made bundle of the application (built using the suppleid `build.R` script), we need to verify with FDA if having JavaScript files in the .zip archive of the repository is acceptable for transfer in the eCTD gateway.
+* The ADRG for pilot 4 will leverage existing material from the pilot 2 ADRG, with the majority of updates landing in the installation instructions.
+* The group agreed to have a separate repository created that is tailored for the actual transfer, following a similar mechanism as Pilot 2. Ben mentioned the approach worked well for Pilot 3.
+* The group acknowledges that asking the FDA review to inspect the JavaScript bundle to find the application R code would be very difficult. Therefore the ADRG will include instructions for running the application in the traditional method of launching an R session (bootstrapped with renv) and executing `shiny::runApp()` much like Pilot 2. 
+* Next steps for the pilot include:
+    * Elicit additional testers for the web-assembly application in the Slack channel
+    * Eric to bootstrap the Windows virtual machine testing environment in a similar fashion as pilot 2's custom testing environment.
+    * Create a new repository for the FDA-ready version of the web-assembly application
+    * Initialize a draft of the ADRG

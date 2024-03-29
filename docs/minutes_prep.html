@@ -356,11 +356,12 @@ Warning
 <span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a><span class="vs">::: {.callout-tip collapse="true"}</span></span>
 <span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a><span class="vs">## View Attendee List</span></span>
 <span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="sc">${</span>silly<span class="sc">}</span><span class="vs">:::</span></span>
-<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a><span class="vs">## Add Minutes Here</span></span>
-<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;/pre&gt;`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a><span class="sc">${</span>silly<span class="sc">}</span></span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a><span class="vs">:::</span></span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a><span class="vs">## Add Minutes Here</span></span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a><span class="vs">&lt;/pre&gt;`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-6-1" data-nodetype="declaration">
@@ -377,7 +378,7 @@ Warning
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="104" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 103;"><span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>silly2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code hidden" id="cb7" data-startfrom="105" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 104;"><span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>silly2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-7" data-nodetype="expression">
 
@@ -392,7 +393,7 @@ Warning
 </main> <!-- /main -->
 
 <script type="ojs-module-contents">
-{"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"viewof meeting_date = Inputs.date({\n  label: \"Meeting Date\",\n  value: \"2023-08-04\"\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"\nmeeting_year = (meeting_date.getFullYear()).toString()\nmeeting_month = (meeting_date.getMonth() + 1).toString().padStart(2, \"0\")\nmeeting_day = (meeting_date.getDate() + 1).toString().padStart(2, \"0\")\n\nmeeting_array = [meeting_year, meeting_month, meeting_day]\nmeeting_print = meeting_array.join(\"-\")\n"},{"methodName":"interpret","cellName":"ojs-cell-3","inline":false,"source":"data2 = transpose(people_data)\n"},{"methodName":"interpret","cellName":"ojs-cell-4","inline":false,"source":"viewof people_selection = Inputs.table(data2, {\n  sort: \"name\",\n  multiple: true,\n  rows: 40,\n  required: false\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-5","inline":false,"source":"meeting_print\n"},{"methodName":"interpret","cellName":"ojs-cell-6","inline":false,"source":"silly = html`${Array.from(new Set(people_selection.map(c => c.name2)))\n.sort()\n.map(c => `- ${c}`)\n.join(\"\\n\")}`\n\nsilly2 = html`<pre>---\ntitle: \"Minutes ${meeting_print}\"\ndate: ${meeting_print}\n---\n\n::: {.callout-tip collapse=\"true\"}\n## View Attendee List\n\n${silly}:::\n\n## Add Minutes Here\n\n</pre>`\n"},{"methodName":"interpret","cellName":"ojs-cell-7","inline":false,"source":"silly2\n"},{"methodName":"interpretQuiet","source":"shinyInput('meeting_date')"},{"methodName":"interpretQuiet","source":"shinyInput('people_selection')"}]}
+{"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"viewof meeting_date = Inputs.date({\n  label: \"Meeting Date\",\n  value: \"2023-08-04\"\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"\nmeeting_year = (meeting_date.getFullYear()).toString()\nmeeting_month = (meeting_date.getMonth() + 1).toString().padStart(2, \"0\")\nmeeting_day = (meeting_date.getDate() + 1).toString().padStart(2, \"0\")\n\nmeeting_array = [meeting_year, meeting_month, meeting_day]\nmeeting_print = meeting_array.join(\"-\")\n"},{"methodName":"interpret","cellName":"ojs-cell-3","inline":false,"source":"data2 = transpose(people_data)\n"},{"methodName":"interpret","cellName":"ojs-cell-4","inline":false,"source":"viewof people_selection = Inputs.table(data2, {\n  sort: \"name\",\n  multiple: true,\n  rows: 40,\n  required: false\n})\n"},{"methodName":"interpret","cellName":"ojs-cell-5","inline":false,"source":"meeting_print\n"},{"methodName":"interpret","cellName":"ojs-cell-6","inline":false,"source":"silly = html`${Array.from(new Set(people_selection.map(c => c.name2)))\n.sort()\n.map(c => `- ${c}`)\n.join(\"\\n\")}`\n\nsilly2 = html`<pre>---\ntitle: \"Minutes ${meeting_print}\"\ndate: ${meeting_print}\n---\n\n::: {.callout-tip collapse=\"true\"}\n## View Attendee List\n\n${silly}\n:::\n\n## Add Minutes Here\n\n</pre>`\n"},{"methodName":"interpret","cellName":"ojs-cell-7","inline":false,"source":"silly2\n"},{"methodName":"interpretQuiet","source":"shinyInput('meeting_date')"},{"methodName":"interpretQuiet","source":"shinyInput('people_selection')"}]}
 </script>
 <script type="module">
 window._ojs.paths.runtimeToDoc = "../..";

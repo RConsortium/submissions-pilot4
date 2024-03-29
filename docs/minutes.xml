@@ -10,7 +10,133 @@
 <atom:link href="https://rconsortium.github.io/submissions-pilot4/minutes.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.2.313</generator>
-<lastBuildDate>Fri, 18 Aug 2023 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 08 Mar 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Minutes 2024-03-08</title>
+  <dc:creator>Eric Nantz</dc:creator>
+  <link>https://rconsortium.github.io/submissions-pilot4/minutes/2024-03-08/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+View Attendee List
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Ben Straub (GSK)</li>
+<li>Eric Nantz (Eli Lilly)</li>
+<li>Nate Mockler (Biogen)</li>
+<li>Sam Parmar (Pfizer)</li>
+</ul>
+</div>
+</div>
+</div>
+<section id="meeting-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-minutes">Meeting Minutes</h2>
+<ul>
+<li>Eric shared the status of his initial tests of the web-assembly version of the application available at https://github.com/RConsortium/submissions-pilot4-webR
+<ul>
+<li>Application works successfully when using work computer browser (Edge), however on his Linux machine certain browsers (Edge) were not able to view the application, while other chrome-variant browsers had no issue</li>
+<li>Sam mentioned he encountered a few issues running the app in his work browser, but was successful after discussions with IT</li>
+<li>Additional testing will be paramount prior to transfer to FDA</li>
+<li>Eric will prepare the repository with a few minor enhancements in preparation for wider testing amongst the group. Ben mentioned that with the Pilot 3 effort winding down, there could be additional resources available for testing soon.</li>
+</ul></li>
+<li>When the web-R binary packages are being pulled down from the webR CDN, there isn’t a clear way to pin those to a specific version, unlike renv when we can indeed control versions of packages installed. A comment on a separate issue https://github.com/posit-dev/r-shinylive/issues/56 indicates there will be a future state when pinning package versions is possible.</li>
+<li>Ben mentioned an issue they encountered with the emmeans package being updated such that it requires R version 4.3 or greater. We leverage this package in the pilot 4 app. Eric’s testing did not encounter any issues with this package, but this note has been logged in the issue tracker for awareness.</li>
+<li>It is unclear whether that will change, but we will be interested in a future keynote presentation from George Stagg at the upcoming ShinyConf 2024 which is going to address reproducibility in the context of web-assembly and web-R.</li>
+<li>With the latest CRAN releases of shinylive and httpuv, the pilot 4 setup instructions will ensure the CRAN releases for this packages are installed by the user prior to running the web-assembly version of the application</li>
+<li>When the web-assembly version of the application is created, the bundle is essentially a massive collection of JavaScript files</li>
+<li>It is not clear yet whether compiling the web-assembly application results in differences between operating systems.</li>
+<li>While the current pilot 4 web-assembly repository contains a pre-made bundle of the application (built using the suppleid <code>build.R</code> script), we need to verify with FDA if having JavaScript files in the .zip archive of the repository is acceptable for transfer in the eCTD gateway.</li>
+<li>The ADRG for pilot 4 will leverage existing material from the pilot 2 ADRG, with the majority of updates landing in the installation instructions.</li>
+<li>The group agreed to have a separate repository created that is tailored for the actual transfer, following a similar mechanism as Pilot 2. Ben mentioned the approach worked well for Pilot 3.</li>
+<li>The group acknowledges that asking the FDA review to inspect the JavaScript bundle to find the application R code would be very difficult. Therefore the ADRG will include instructions for running the application in the traditional method of launching an R session (bootstrapped with renv) and executing <code>shiny::runApp()</code> much like Pilot 2.</li>
+<li>Next steps for the pilot include:
+<ul>
+<li>Elicit additional testers for the web-assembly application in the Slack channel</li>
+<li>Eric to bootstrap the Windows virtual machine testing environment in a similar fashion as pilot 2’s custom testing environment.</li>
+<li>Create a new repository for the FDA-ready version of the web-assembly application</li>
+<li>Initialize a draft of the ADRG</li>
+</ul></li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://rconsortium.github.io/submissions-pilot4/minutes/2024-03-08/index.html</guid>
+  <pubDate>Fri, 08 Mar 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Minutes 2023-10-23</title>
+  <dc:creator>Eric Nantz</dc:creator>
+  <link>https://rconsortium.github.io/submissions-pilot4/minutes/2023-10-23/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+View Attendee List
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>George Stagg (Posit)</li>
+<li>Ismael Alejandro Rodriguez Rodriguez (Appsilon)</li>
+<li>Paweł Rzymkiewicz (Appsilon)</li>
+<li>Pedro Silva (Appsilon)</li>
+<li>Sam Parmar (Pfizer)</li>
+</ul>
+</div>
+</div>
+</div>
+<section id="appsilon-sprint-recap" class="level2">
+<h2 class="anchored" data-anchor-id="appsilon-sprint-recap">Appsilon Sprint Recap</h2>
+<ul>
+<li>While golem and rhino are not currently supported, they are able to use the box package to mimic rhino structure, and they picked a modular structure</li>
+<li>They had issues with shinylive not liking non-R files, George would like a reproducible example. George says to make sure they are on the latest version of shinylive</li>
+<li>issues with using cowplot as-is when it is deployed on Netlify, but running locally it is fine. George thingks it could be an issue with Netlify limiting the size of assets</li>
+<li>Sam: Oh, we might need to make sure we document the port the app will use. Wonder if it is possible that FDA might block it or be using it for another app?</li>
+<li>They have a build script that will pull down the packages from the webR package binary site</li>
+<li>George:
+<ul>
+<li>Default behavior is that shinylive will download packages from a CDN</li>
+<li>Going forward: packages will be distributed with the app automatically</li>
+<li>Once this is implemented, everything will be relative and no external dependencies</li>
+<li>Packages loading slowly because traditionally binary packages are transferred as compressed tar.gz files. R tries to use an untarring program to unpack on disk. Webassembly cannot use tar, it does not exist in virtual file system. It is slow because it is using a fallback in R itself</li>
+<li>They are working on ways to load packages faster in webR. They will make use of the enscriptem file system API to mount system images on the filesystem. No extraction step is needed with this new approach</li>
+<li>enscriptem data file system images. George will update the public binary site</li>
+<li>Docker image will be available to help build packages into this new framework</li>
+<li>George is writing an R package to help build library into a single data image</li>
+<li>Dev version of webR has webR::mount(“/shiny”, “http://local/shiny.data”)</li>
+</ul></li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://rconsortium.github.io/submissions-pilot4/minutes/2023-10-23/index.html</guid>
+  <pubDate>Mon, 23 Oct 2023 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Minutes 2023-08-18</title>
   <dc:creator>Eric Nantz</dc:creator>
@@ -20,8 +146,53 @@
 
 
 
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+View Attendee List
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>André Veríssimo (Appsilon)</li>
+<li>Eric Nantz (Eli Lilly)</li>
+<li>George Stagg (Posit)</li>
+<li>Paweł Rzymkiewicz (Appsilon)</li>
+<li>Sam Parmar (Pfizer)</li>
+<li>Winston Chang (Posit)</li>
+</ul>
+</div>
+</div>
+</div>
+<section id="web-assembly-and-webr-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="web-assembly-and-webr-discussion">Web-assembly and WebR Discussion</h2>
+<ul>
+<li>George Stagg and Winston Chang joined our working group session to discuss the web-assembly portion of Pilot 4</li>
+<li>To run the web-assembly version of the application, the app must be executed in a web server</li>
+<li>The <a href="https://github.com/rstudio/httpuv">{httpuv}`</a> R package provides a shim that webR uses within Appsilon’s <a href="https://github.com/Appsilon/experimental-teal-webr-demo">teal webR demo app</a> which is similar to a setup with a Python Shiny app running in <a href="https://shiny.posit.co/py/docs/shinylive.html">Shinylive</a></li>
+<li>In the (near) future, there will be a Shinylive R version with a package that helps the user create static files directly from a Shiny app written in R.</li>
+<li>For this pilot, we could send the FDA reviewers a simple R script that sets up <code>{httpuv}</code> to run a web server that outputs a link they can click on to view the application locally. In fact, there is now a new function called <a href="https://github.com/rstudio/httpuv/pull/380"><code>runStaticServer</code></a> in the development version of <code>{httpuv}</code> that could be used. Hopefully the new version of <code>{httpuv}</code> will land on CRAN soon.</li>
+<li>Now that we’ve verified that the FDA reviewers can accept compressed archives (<code>.zip</code>) inside a transfer in the eCTD gateway, the Pilot 4 app files could be compressed into an archive that uppacks to a directory containing all of the webR and web-assembly files in a subdirectory, with an R script that starts <code>{httpuv}</code> and runs the files and outputs a local link to view the app.</li>
+<li>Verified that R 4.2.2 (version used for the Pilot 2 application) contains binary installations of <code>{httpuv}</code></li>
+<li>Web-assembly applications creat a virtual file system as part of its execution. In terms of how additional R packges are loaded into the application, it is recommended to have these packages in the virtual file system.</li>
+<li>The package <code>.tar.gz</code> installers can be downloaded from the <a href="https://repo.r-wasm.org/">WebR binary R package repository</a> and stored in the compressed archive for the app.</li>
+<li>There aren’t real benefits to having Shiny-related packages included directly in the WebR runtime, as we aren’t in the early days of tech anymore</li>
+<li>Initial loading of the app requires an upfront step of reading the package files in the web-assembly process that takes a bit of time</li>
+<li>To enhance the current Appsilon web-assembly demo app, we need to download the binary <code>.tar.gz</code> installers of the package files as part of the package remote sources. It would also required the creation of a <code>PACKAGES</code> text file which can be done in R directly as seen in <a href="https://www.rdocumentation.org/packages/tools/versions/3.6.2/topics/write_PACKAGES">this documentation</a>.</li>
+<li>If we need to obtain a specific version of the web-assembly engine, it could be done via Node and NPM if that is a critical need.</li>
+<li>Down the road, it might be possible to save a particular version of the web browser as a way to ensure web-assembly runtime reproducibility</li>
+<li>George reported that he’s had situations were the same binaries used in a web-assembly app led to different results</li>
+<li>George recommends that instead of downloading the WebR minified JS from a CDN, that we download the minified JS and store it in the app archive. Hence changing the lines <a href="https://github.com/Appsilon/experimental-teal-webr-demo/blob/9b2655f91e89775ef00eedfd2a2eb1adecd275bc/shiny.js#L1C41-L1C41">here</a> to a relative URL.</li>
+<li>A key advantage from a security standpoint is that any binaries executed by web-assembly are gauranteed to be running in a browser and using a sandboxed virtual file system, which would eliminate possibilities of any host system modifications.</li>
+</ul>
 
 
+</section>
 
  ]]></description>
   <guid>https://rconsortium.github.io/submissions-pilot4/minutes/2023-08-18/index.html</guid>
