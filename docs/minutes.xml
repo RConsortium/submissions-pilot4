@@ -44,14 +44,14 @@ View Attendee List
 <section id="meeting-minutes" class="level2">
 <h2 class="anchored" data-anchor-id="meeting-minutes">Meeting Minutes</h2>
 <ul>
-<li>Eric shared the status of his initial tests of the web-assembly version of the application available at https://github.com/RConsortium/submissions-pilot4-webR
+<li>Eric shared the status of his initial tests of the web-assembly version of the application available at <a href="https://github.com/RConsortium/submissions-pilot4-webR" class="uri">https://github.com/RConsortium/submissions-pilot4-webR</a>
 <ul>
 <li>Application works successfully when using work computer browser (Edge), however on his Linux machine certain browsers (Edge) were not able to view the application, while other chrome-variant browsers had no issue</li>
 <li>Sam mentioned he encountered a few issues running the app in his work browser, but was successful after discussions with IT</li>
 <li>Additional testing will be paramount prior to transfer to FDA</li>
 <li>Eric will prepare the repository with a few minor enhancements in preparation for wider testing amongst the group. Ben mentioned that with the Pilot 3 effort winding down, there could be additional resources available for testing soon.</li>
 </ul></li>
-<li>When the web-R binary packages are being pulled down from the webR CDN, there isn’t a clear way to pin those to a specific version, unlike renv when we can indeed control versions of packages installed. A comment on a separate issue https://github.com/posit-dev/r-shinylive/issues/56 indicates there will be a future state when pinning package versions is possible.</li>
+<li>When the web-R binary packages are being pulled down from the webR CDN, there isn’t a clear way to pin those to a specific version, unlike renv when we can indeed control versions of packages installed. A comment on a separate issue <a href="https://github.com/posit-dev/r-shinylive/issues/56" class="uri">https://github.com/posit-dev/r-shinylive/issues/56</a> indicates there will be a future state when pinning package versions is possible.</li>
 <li>Ben mentioned an issue they encountered with the emmeans package being updated such that it requires R version 4.3 or greater. We leverage this package in the pilot 4 app. Eric’s testing did not encounter any issues with this package, but this note has been logged in the issue tracker for awareness.</li>
 <li>It is unclear whether that will change, but we will be interested in a future keynote presentation from George Stagg at the upcoming ShinyConf 2024 which is going to address reproducibility in the context of web-assembly and web-R.</li>
 <li>With the latest CRAN releases of shinylive and httpuv, the pilot 4 setup instructions will ensure the CRAN releases for this packages are installed by the user prior to running the web-assembly version of the application</li>
