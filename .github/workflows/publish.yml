@@ -27,17 +27,13 @@ jobs:
         with:
           use-public-rspm: true
           
-      - name: Install dplyr
-        run: install.packages("dplyr")
-        shell: Rscript {0}
-        
-      - name: Install openxlsx2
-        run: install.packages("openxlsx2")
-        shell: Rscript {0}
-
-      - name: Install rmarkdown
-        run: install.packages("rmarkdown")
-        shell: Rscript {0}
+      - name: Install R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages:
+            any::dplyr
+            any::openxlsx2
+            any::rmarkdown
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
