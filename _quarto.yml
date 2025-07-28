@@ -1,6 +1,5 @@
 project:
   type: website
-  output-dir: docs
   
 website:
   title: "Submissions WG Pilot 4"
@@ -12,6 +11,10 @@ website:
       - href: index.qmd
         text: Home
       - minutes.qmd
+      - text: "Resources"
+        menu: 
+          - href: tech_session.qmd
+            text: Pilot 4 Technologies
       - text: "Site Development"
         menu: 
           - href: minutes_prep.qmd
@@ -28,3 +31,7 @@ format:
       dark: darkly
     css: styles.css
     toc: true
+    link-external-newwindow: true
+
+execute: 
+  freeze: auto
