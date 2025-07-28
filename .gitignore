@@ -5,3 +5,8 @@
 
 /.quarto/
 /_site/
+_prototyping/*
+!_prototyping/README.md
+
+# nix files
+result
