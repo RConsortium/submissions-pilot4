@@ -11,10 +11,10 @@ website:
       - href: index.qmd
         text: Home
       - minutes.qmd
-      - text: "Resources"
+      - text: "Learning Guide Resources"
         menu: 
           - href: tech_session.qmd
-            text: Pilot 4 Technologies
+            text: Container Guide
       - text: "Site Development"
         menu: 
           - href: minutes_prep.qmd
