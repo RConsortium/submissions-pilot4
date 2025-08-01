@@ -10,11 +10,12 @@ format:
 
 This guide contains technical details and practical explanations for the container technology at the core of the Pilot 4 project. While the Analysis Date Reviewers Guide (ADRG) contains specific instructions for setting up the necessary software and execution to launch the Shiny application included in the Pilot, the guide lacks background information on the key concepts behind container technology as well as advice for debugging issues if the execution procedures were not successful. The content in this guide serves as a companion to the Pilot 4 Learning Sessions with members of the Submissions Working Group held on August 1st, 2025.
 
-::: {.callout-note}
+::: {.callout-note collapse="false"}
 
-## Recording
+## Session 1 Recording
 
-At the time of this writing, the recording is not yet available. This page will be updated with a link to the recording once it is available.
+{{< video https://rsubmission-draft.us-east-1.linodeobjects.com/pilot4_learning_guide_assets%2Fdocker_session1.mp4 >}}
+
 :::
 
 # Key Concepts
