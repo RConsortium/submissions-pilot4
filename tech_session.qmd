@@ -344,7 +344,7 @@ LABEL org.opencontainers.image.licenses="GPL-3.0-or-later" \
       org.opencontainers.image.vendors="RConsortium, Appsilon" \
       org.opencontainers.image.authors="Eric Nantz <theRcast@gmail.com>, André Veríssimo <andre.verissimo@appsilon.com>, Vedha Viyash <vedha@appsilon.com>" #<3>
 
-RUN apt-get update --quiet \
+RUN apt-get update --quiet \  #<4>
    && apt-get install \
      curl \
      libssl-dev \
@@ -357,11 +357,11 @@ RUN apt-get update --quiet \
    && apt-get clean --quiet \
    && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -m shiny
+RUN useradd -m shiny #<5>
 
 USER shiny
 
-ARG LOCAL_APP_DIR=./submissions-pilot2
+ARG LOCAL_APP_DIR=./submissions-pilot2 #<6>
 ARG LOCAL_DATA_DIR=./datasets
 ARG APP_DIR=/home/shiny/submissions-pilot2
 ARG DATA_DIR=/home/shiny/submissions-pilot2/datasets
@@ -369,17 +369,76 @@ ARG DATA_DIR=/home/shiny/submissions-pilot2/datasets
 COPY $LOCAL_APP_DIR $APP_DIR
 COPY $LOCAL_DATA_DIR $DATA_DIR
 
-WORKDIR $APP_DIR
+WORKDIR $APP_DIR #<7>
 
 # Prevents RENV from mistakenly download from teal.* remotes (as the dependencies are
 #  already defined in renv.lock).
-RUN Rscript \
+RUN Rscript \ #<8>
   -e "options(\"renv.config.install.remotes\" = FALSE)" \
   -e "renv::restore()"
 
-CMD ["R", "-e", "options(shiny.port = 8787, shiny.host = '0.0.0.0'); pkgload::load_all(export_all = FALSE,helpers = FALSE,attach_testthat = FALSE);options('golem.app.prod' = TRUE); pilot2wrappers::run_app()"]
+CMD ["R", "-e", "options(shiny.port = 8787, shiny.host = '0.0.0.0'); pkgload::load_all(export_all = FALSE,helpers = FALSE,attach_testthat = FALSE);options('golem.app.prod' = TRUE); pilot2wrappers::run_app()"] #<9>
 ```
 1. Docker supports optional arguments (parameters) when building the container. The `ARG` keyword distinguishes these parameters with the ability to set a default value, similar to how an R function can have default parameter values.
-2. The `IMAGE_REGISTRY` parameter defaults to `docker.io`, short for Docker Hub.
-3. 
+2. The `IMAGE_REGISTRY` parameter defaults to `docker.io`, short for Docker Hub. Note that values of the variables derived from the above arguments will populate this statement to be `FROM docker.io/rocker/r-ver:4.2.0` meaning we are using the Docker image called `r_ver` with tag `4.2.0`, meaning we are using R version `4.2.0`.
+3. While not mandatory, the `LABEL` keyword allows for optional metadata to be attached to the container image
+4. By using the Docker container image from the Rocker project, R is already available. However these statements ensure that we have the necessary system dependencies installed for R packages utilized in the Pilot Shiny application.
+5. By default, containers are built and run as the **root** user in the container. A best practice is to create a non-root user for a container this is not requiring complicated system administrative tasks.
+6. Additional arguments are specified to define the location of the Pilot 2 Shiny application source files and associated XPT data files on the host system. The default values of `LOCAL_APP_DIR` and `LOCAL_DATA_DIR` are directories within the current working directory of the Dockerfile. The `APP_DIR` and `DATA_DIR` directories correspond to the locations these files will be copied to within the container using the `COPY` lines immediately below.
+7. The `WORKDIR` keyword ensures that the working directory for the remaining steps in the Dockerfile are executed with the working directory changed to the application directory denoted by `APP_DIR` inside the container.
+8. Since the Pilot 2 Shiny application R package dependencies were managed with the [renv](https://rstudio.github.io/renv/articles/renv.html) package, this step performs the package library restoration from the associated `renv.lock` file.
+9. The default command to be executed during launch of a new a container based on this image is to run the Shiny application in the same manner as what was performed in the Pilot 2 Shiny application execution instructions. Note that the port specified is `8787` and the host is specified as `0.0.0.0` which will be utilized in the container execution command.
 :::
+
+Using the `docker build` command, we can build this custom container image using the following:
+
+``` bash
+docker build \ 
+  --build-arg LOCAL_DATA_DIR=datasets \
+  --build-arg LOCAL_APP_DIR=pilot2wrappers \
+  -t RConsortium/submissions-pilot4-container:latest \
+  -f Dockerfile.txt 
+```
+
+* Note the use of `build-arg` statements, ensuring that we specify the values of `LOCAL_DATA_DIR` and `LOCAL_APP_DIR` to use the directory names `datasets` and `pilot2wrappers`, respectively.
+* We set a custom name of the container as `RConsortium/submissions-pilot4-container:latest`. While it is not required to use this specific format, the `:latest` allows us to set a custom **tag** for the particular build. This can be helpful if we need to create alternative builds with a different **tag** while keeping a default version available.
+- `-f Dockerfile.txt` ensures Docker uses `Dockerfile.txt` to perform the build, since we are not using the default name of `Dockerfile` for the file.
+
+::: {.callout-tip collapse="false"}
+
+## Troubleshooting tip
+
+While in the testing performed on custom virtual machines and other Windows installations the container for this application was built successfully, there is always a chance that a build fails. If that occurs, a recommend workflow to troubleshoot is the following:
+
+* Create a new copy of `Dockerfile.txt` which removes and/or comments out various steps in the build process, for example `Dockerfile_test.txt`.
+* Modify the `CMD` line at the end of the container to become `CMD ["R", "-e", "print('Hello World!')"]`
+* Build a new container based on this updated image:
+
+``` bash
+docker build \ 
+  --build-arg LOCAL_DATA_DIR=datasets \
+  --build-arg LOCAL_APP_DIR=pilot2wrappers \
+  -t RConsortium/submissions-pilot4-container:test \
+  -f Dockerfile_test.txt 
+```
+
+* Create a new container based on this debugging image that launches a bash shell:
+
+``` bash
+docker run --rm -it RConsortium/submissions-pilot4-container:test bash
+```
+
+* Launch R from the bash shell and manually try the steps that failed in the R process.
+:::
+
+## Running the Pilot 4 Shiny Application
+
+Assuming the container build was completed successfully, we can launch a new container based on the custom image with the following:
+
+``` bash
+docker run -it --rm -p 8787:8787 RConsortium/submissions-pilot4-container:latest
+```
+
+* `-p 8787:8787` ensures that the container port 8787 is mapped to the host system port 8787
+
+Once the container is launched, the R process will execute the R code that was specified in the `CMD` line at the end of `Dockerfile.txt`. Once the process reaches the step of running the Shiny application, open a new web browser on your local system using the following address: `127.0.0.1:8787`.
