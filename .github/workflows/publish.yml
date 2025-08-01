@@ -22,22 +22,23 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         
-      - name: Set up R
-        uses: r-lib/actions/setup-r@v2
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
         with:
-          use-public-rspm: true
-          
-      - name: Install R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          packages:
-            any::dplyr
-            any::openxlsx2
-            any::rmarkdown
+          logger: pretty
+          log-directives: nix_installer=trace
+          backtrace: full
 
-      - name: Render and Publish
-        uses: quarto-dev/quarto-actions/publish@v2
-        with:
-          target: gh-pages
+      - name: Nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Build development environment
+        run: |
+          nix-build
+
+      - name: Publish Site to Quarto Pub (custom)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          QUARTO_PUB_AUTH_TOKEN: ${{ secrets.QUARTO_PUB_AUTH_TOKEN }}
+        run: |
+          nix-shell --run "quarto publish --no-prompt --no-browser --id b915b535-6c33-4993-9889-835b0c4895be"
+        shell: bash

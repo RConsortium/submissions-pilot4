@@ -1,0 +1,4 @@
+- source: project
+  quarto-pub:
+    - id: b915b535-6c33-4993-9889-835b0c4895be
+      url: https://rpodcast.quarto.pub/submissions-wg-pilot-4
