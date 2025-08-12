@@ -28,6 +28,13 @@ If your organization's IT department is responsible for installing WSL, then you
 6. In the Advanced Options window, turn the **Receive updates for other Microsoft products** to **On**. Then click the upper-left arrow to go back to the Settings window.
 7. Click the **Check for updates** button. A new update may appear in the list called **Windows Subsystem for Linux Update** which will automatically install. Any other updates may appear as well. Once the installation completes, you can close this window.
 
+## Updating WSL
+
+Depending on your version of Windows, you may need to perform an additional update specific to WSL. Here is the procedure to perform that update:
+
+1.  Click on the Windows start menu and in the search bar enter `powershell`. A new entry should appear in the list of results corresponding to Windows PowerShell. Click Open to proceed.
+2. Type the following command in the terminal prompt: `wsl --update`. Once the installation completes, you can close the Powershell window.
+
 ## Installing Ubuntu Linux
 
 1. Launch the Microsoft Store, If ths is the first time launching the store, the tool may take a minute to launch.
@@ -54,10 +61,10 @@ Demo screencast forthcoming
 
 ## Command Transcript
 
-Here is a list of the key commands, note that you will hit Enter after each command. Comments are denoted by the lines beginning with `#` and do not need to be entered. Also note that the first time you run a command involving `sudo` that you will need to enter the password you created for your default UNIX account in the virtual machine.
+Here is a list of the key commands, note that you will hit Enter after each command. Comments are denoted by the lines beginning with `#` and do not need to be entered. Also note that the first time you run a command involving `sudo` that you will need to enter the password you created for your default UNIX account in the virtual machine. Subsequent commands involving `sudo` will not require the password in the same session.
 
 ``` sh
-# Add Docker's official GPG key:
+# Add Docker's official GPG key
 sudo apt update
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -68,20 +75,30 @@ echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
+
+# refresh package repository
+sudo apt update
 
 # Install docker packages
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# Run docker without sudo
-sudo groupadd docker # Create the docker group if it doesn't exist
-sudo usermod -aG docker $USER # Add your user to the docker group
-newgrp docker # Apply the new group membership without logging out
+# Enable docker commands without sudo
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
 
-# Use legacy iptables - select option 1
-sudo update-alternatives --config iptables
+# Launch the Docker process (this will be automatically started in the VM in your future sessions)
+sudo systemctl start docker
+
+# verify docker is running (press q to exist from the process dialog)
+sudo systemctl status docker
 ```
 :::
 
+To verify that Docker is able to connect to the Docker Hub repository and to ensure Docker can create containers, run the following command in the same WSL session:
+
+``` bash
+docker run hello-world
+```
 
 
