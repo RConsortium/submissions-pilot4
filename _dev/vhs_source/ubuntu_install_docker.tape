@@ -52,7 +52,7 @@ Sleep 4s
 Type "sudo apt install -y ca-certificates curl"
 Sleep 1s
 Enter
-Sleep 4s
+Sleep 8s
 
 Hide
 Type "clear"
@@ -124,7 +124,7 @@ Enter
 Type "sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
 Sleep 1s
 Enter
-Sleep 15s
+Sleep 25s
 
 Hide
 Type "clear"
@@ -168,7 +168,7 @@ Sleep 1s
 Type "sudo systemctl status docker"
 Sleep 1s
 Enter
-Sleep 1s
+Sleep 4s
 Type "q"
 Enter
 
