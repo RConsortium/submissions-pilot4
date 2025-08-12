@@ -128,6 +128,7 @@ Sleep 25s
 
 Hide
 Type "clear"
+Enter
 Sleep 1s
 
 Show
