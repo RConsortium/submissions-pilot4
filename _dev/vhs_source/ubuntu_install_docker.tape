@@ -124,7 +124,8 @@ Enter
 Type "sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
 Sleep 1s
 Enter
-Sleep 25s
+Wait
+Sleep 2s
 
 Hide
 Type "clear"
