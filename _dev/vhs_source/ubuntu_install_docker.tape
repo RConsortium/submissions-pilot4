@@ -30,23 +30,154 @@ Set WindowBar ColorfulRight
 Set Theme "Tomorrow Night Eighties"
 
 # Set typing speed
-Set TypingSpeed 0.2
+Set TypingSpeed 0.05s
 
-# debugging: connecting to virtual machine via ssh
-Show
+# connect to virtual machine via ssh
+Hide
 Type "ssh pilot4vm"
 Enter
-
 Sleep 2s
-
-# Type silly command
-Type "pwd"
+Type "clear"
 Enter
-
 Sleep 1s
 
-# Exit VM session
-Type "exit"
+# add docker official gpg key
+Show
+Type "# Add Docker's official GPG key"
+Enter
+Sleep 0.5s
+Type "sudo apt update"
+Enter
+Sleep 4s
+
+Hide
+Type "clear"
+Enter
+Sleep 0.5s
+
+Show
+Type "sudo install -m 0755 -d /etc/apt/keyrings"
+Sleep 0.5s
+Enter
+Sleep 0.5s
+Type "sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc"
+Sleep 0.5s
+Enter
+Sleep 0.5s
+Type "sudo chmod a+r /etc/apt/keyrings/docker.asc"
+Sleep 0.5s
 Enter
 
-Sleep 2s
+Hide
+Type "clear"
+Enter
+Sleep 0.5s
+
+# add repository to sources
+Show
+Type "# Add the Docker package repository to Ubuntu package sources"
+Sleep 0.5s
+Enter
+Sleep 0.5s
+
+Type "echo \"
+Enter
+Type '"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \'
+Sleep 0.5s
+Enter
+Type '$(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \'
+Sleep 0.5s
+Enter
+Type 'sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
+Sleep 0.5s
+Enter
+Sleep 1s
+
+Hide
+Type "clear"
+Enter
+Sleep 0.5s
+
+Show
+Type "# Refresh package repository"
+Sleep 0.5s
+Enter
+Sleep 0.5s
+Type "sudo apt update"
+Sleep 0.5s
+Enter
+Sleep 4s
+
+Hide
+Type "clear"
+Enter
+Sleep 0.5s
+
+Show
+Type "# Install docker linux packages"
+Sleep 0.5s
+Enter
+Type "sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
+Sleep 0.5s
+Enter
+Sleep 15s
+
+Hide
+Type "clear"
+Sleep 0.5s
+
+Show
+Type "# Enable docker commands without sudo"
+Sleep 0.5s
+Enter
+Sleep 0.5s
+Type "sudo groupadd docker"
+Sleep 0.5s
+Enter
+Sleep 0.5s
+Type "sudo usermod -aG docker $USER"
+Sleep 0.5s
+Enter
+Sleep 0.5s
+Type "newgrp docker"
+Sleep 0.5s
+Enter
+Sleep 0.5s
+
+Hide
+Type "clear"
+Enter
+Sleep 1s
+
+Show
+Type "# Start Docker process"
+Sleep 0.5s
+Enter
+Type "sudo systemctl start docker"
+Sleep 0.5s
+Enter
+Sleep 1s
+Type "# Verify Docker is running"
+Sleep 0.5s
+Enter
+Sleep 1s
+Type "sudo systemctl status docker"
+Sleep 0.5s
+Enter
+Sleep 1s
+Type "q"
+Enter
+
+Hide
+Type "clear"
+Enter
+Sleep 1s
+
+Show
+Type "# Exit virtual machine"
+Sleep 0.5s
+Enter
+Sleep 0.5s
+Type "exit"
+Enter
+Sleep 1s
