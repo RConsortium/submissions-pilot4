@@ -413,12 +413,12 @@ Using the `docker build` command, we can build this custom container image using
 docker build \ 
   --build-arg LOCAL_DATA_DIR=datasets \
   --build-arg LOCAL_APP_DIR=pilot2wrappers \
-  -t RConsortium/submissions-pilot4-container:latest \
+  -t submissions-pilot4-container:latest \
   -f Dockerfile.txt 
 ```
 
 * Note the use of `build-arg` statements, ensuring that we specify the values of `LOCAL_DATA_DIR` and `LOCAL_APP_DIR` to use the directory names `datasets` and `pilot2wrappers`, respectively.
-* We set a custom name of the container as `RConsortium/submissions-pilot4-container:latest`. While it is not required to use this specific format, the `:latest` allows us to set a custom **tag** for the particular build. This can be helpful if we need to create alternative builds with a different **tag** while keeping a default version available.
+* We set a custom name of the container as `submissions-pilot4-container:latest`. While it is not required to use this specific format, the `:latest` allows us to set a custom **tag** for the particular build. This can be helpful if we need to create alternative builds with a different **tag** while keeping a default version available.
 - `-f Dockerfile.txt` ensures Docker uses `Dockerfile.txt` to perform the build, since we are not using the default name of `Dockerfile` for the file.
 
 ::: {.callout-tip collapse="false"}
@@ -435,14 +435,14 @@ While in the testing performed on custom virtual machines and other Windows inst
 docker build \ 
   --build-arg LOCAL_DATA_DIR=datasets \
   --build-arg LOCAL_APP_DIR=pilot2wrappers \
-  -t RConsortium/submissions-pilot4-container:test \
+  -t submissions-pilot4-container:test \
   -f Dockerfile_test.txt 
 ```
 
 * Create a new container based on this debugging image that launches a bash shell:
 
 ``` bash
-docker run --rm -it RConsortium/submissions-pilot4-container:test bash
+docker run --rm -it submissions-pilot4-container:test bash
 ```
 
 * Launch R from the bash shell and manually try the steps that failed in the R process.
@@ -453,7 +453,7 @@ docker run --rm -it RConsortium/submissions-pilot4-container:test bash
 Assuming the container build was completed successfully, we can launch a new container based on the custom image with the following:
 
 ``` bash
-docker run -it --rm -p 8787:8787 RConsortium/submissions-pilot4-container:latest
+docker run -it --rm -p 8787:8787 submissions-pilot4-container:latest
 ```
 
 * `-p 8787:8787` ensures that the container port 8787 is mapped to the host system port 8787
