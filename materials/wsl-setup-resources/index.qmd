@@ -1,0 +1,23 @@
+---
+title: "WSL Setup Screenshots"
+subtitle: "Screenshots"
+format: 
+  revealjs:
+    incremental: true
+    slide-number: c/t # c/t | c | h/v | h.v
+    slide-tone: false #true
+    code-line-numbers: false
+    history: true
+    controls: true
+---
+
+# Install WSL
+
+## {background-image="assets/screenshots/windows_turn_features.png" background-size="contain"}
+
+## {background-image="assets/screenshots/windows_wsl_enable.png" background-size="contain"}
+
+## {background-image="assets/screenshots/windows_update_advanced_options1.png" background-size="contain"}
+
+## {background-image="assets/screenshots/windows_update_advanced_options2.png" background-size="contain"}
+

@@ -4,6 +4,7 @@ format:
   html:
     toc: true
     echo: false
+    link-external-newwindow: true
 ---
 
 # Introduction
@@ -20,6 +21,8 @@ A pre-requisite for running the Docker container runtime on a Windows computer i
 If your organization's IT department is responsible for installing WSL, then you may not need to follow these instructions and can proceed to the Docker installation section.
 :::
 
+{{< revealjs "materials/wsl-setup-resources/index.html" height="420px" width="747px" class="ratio ratio-16x9" >}}
+
 1. Click on the Windows start menu and in the search bar enter `Turn Windows Features on or off`. A new entry should appear in the list of results corresponding to this setting. Click Open to proceed.
 2. A new window appears with a series of options with checkboxes to enable or disable them. Find the options `Virtual Machine Platform` and `Windows Subsystem for Linux` and select their respective check boxes to enable these features. Click the OK button to proceed.
 3. After the setup is complete, you will be prompted to restart your Windows computer to complete the requested updates. Restart your device.
@@ -28,7 +31,16 @@ If your organization's IT department is responsible for installing WSL, then you
 6. In the Advanced Options window, turn the **Receive updates for other Microsoft products** to **On**. Then click the upper-left arrow to go back to the Settings window.
 7. Click the **Check for updates** button. A new update may appear in the list called **Windows Subsystem for Linux Update** which will automatically install. Any other updates may appear as well. Once the installation completes, you can close this window.
 
+## Updating WSL
+
+Depending on your version of Windows, you may need to perform an additional update specific to WSL. Here is the procedure to perform that update:
+
+1.  Click on the Windows start menu and in the search bar enter `powershell`. A new entry should appear in the list of results corresponding to Windows PowerShell. Click Open to proceed.
+2. Type the following command in the terminal prompt: `wsl --update`. Once the installation completes, you can close the Powershell window.
+
 ## Installing Ubuntu Linux
+
+{{< revealjs "materials/ubuntu-setup-resources/index.html" height="420px" width="747px" class="ratio ratio-16x9" >}}
 
 1. Launch the Microsoft Store, If ths is the first time launching the store, the tool may take a minute to launch.
 2. In the search bar, type `Ubuntu`. In the search results, select **Ubuntu 24.04.1 LTS**.
@@ -45,19 +57,23 @@ If your organization's IT department is responsible for installing WSL, then you
 
 ## Installing Docker
 
+After installing WSL on your Windows machine, you are now ready to install the Docker container runtime. While the [Docker Desktop](https://www.docker.com/products/docker-desktop/) is an available option, the utility can prove to be unstable in certain Windows machines. The recommended approach for this Pilot is to install the Docker community edition directly on the Ubuntu Linux virtual machine powered by WSL.
+
+To see a demonstration of the installation commands, click the **Demonstration** tab below and play the short terminal screencast. Click the **Command Transcript** tab to view the required commands required.
+
 ::: {.panel-tabset}
 ## Demonstration
 
-::: {.callout-note}
-Demo screencast forthcoming
-:::
+{{< video assets/img/ubuntu_install_docker.mp4 >}}
 
 ## Command Transcript
 
-Here is a list of the key commands, note that you will hit Enter after each command. Comments are denoted by the lines beginning with `#` and do not need to be entered. Also note that the first time you run a command involving `sudo` that you will need to enter the password you created for your default UNIX account in the virtual machine.
+Here is a list of the key commands, note that you will hit Enter after each command. Comments are denoted by the lines beginning with `#` and do not need to be entered. Also note that the first time you run a command involving `sudo` that you will need to enter the password you created for your default UNIX account in the virtual machine. Subsequent commands involving `sudo` will not require the password in the same session.
+
+To begin, ensure you are connected to the Ubuntu Linux virtual machine by launching the Ubuntu Linux application, which will open a new terminal window connected to the virtual machine.
 
 ``` sh
-# Add Docker's official GPG key:
+# Add Docker's official GPG key
 sudo apt update
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -68,20 +84,30 @@ echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
+
+# refresh package repository
+sudo apt update
 
 # Install docker packages
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# Run docker without sudo
-sudo groupadd docker # Create the docker group if it doesn't exist
-sudo usermod -aG docker $USER # Add your user to the docker group
-newgrp docker # Apply the new group membership without logging out
+# Enable docker commands without sudo
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
 
-# Use legacy iptables - select option 1
-sudo update-alternatives --config iptables
+# Launch the Docker process (this will be automatically started in the VM in your future sessions)
+sudo systemctl start docker
+
+# verify docker is running (press q to exist from the process dialog)
+sudo systemctl status docker
 ```
 :::
 
+To verify that Docker is able to connect to the Docker Hub repository and to ensure Docker can create containers, run the following command in the same WSL session:
+
+``` bash
+docker run hello-world
+```
 
 

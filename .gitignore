@@ -10,3 +10,5 @@ _prototyping/*
 
 # nix files
 result
+
+/.luarc.json

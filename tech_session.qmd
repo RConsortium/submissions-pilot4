@@ -8,14 +8,30 @@ format:
 
 # Introduction
 
-This guide contains technical details and practical explanations for the container technology at the core of the Pilot 4 project. While the Analysis Date Reviewers Guide (ADRG) contains specific instructions for setting up the necessary software and execution to launch the Shiny application included in the Pilot, the guide lacks background information on the key concepts behind container technology as well as advice for debugging issues if the execution procedures were not successful. The content in this guide serves as a companion to the Pilot 4 Learning Sessions with members of the Submissions Working Group held on August 1st, 2025.
+This guide contains technical details and practical explanations for the container technology at the core of the Pilot 4 project. While the Analysis Date Reviewers Guide (ADRG) contains specific instructions for setting up the necessary software and execution to launch the Shiny application included in the Pilot, the guide lacks background information on the key concepts behind container technology as well as advice for debugging issues if the execution procedures were not successful. The content in this guide serves as a companion to the Pilot 4 Learning Sessions with members of the Submissions Working Group held on August 1st and August 12th, 2025.
 
 ::: {.callout-note collapse="false"}
 
-## Session 1 Recording
+## Session Recordings
 
-{{< video https://rsubmission-draft.us-east-1.linodeobjects.com/pilot4_learning_guide_assets%2Fdocker_session1.mp4 >}}
+::: {.panel-tabset}
+## Session 1
 
+{{< video https://vimeo.com/1108933479 >}}
+
+## Session 2
+
+{{< video https://vimeo.com/1109540171 >}}
+
+:::
+
+:::
+
+::: {.callout-tip}
+
+## Installation Instructions
+
+Visit the [WSL and Docker Installation Guide](docker_windows_setup.qmd) for the recommended procedures to install Docker on a Windows computer.
 :::
 
 # Key Concepts
@@ -157,7 +173,7 @@ Imagine we want to extend the Ubuntu container image to include the R language. 
 ::: {.panel-tabset}
 ## Demonstration
 
-{{< video https://rsubmission-draft.us-east-1.linodeobjects.com/pilot4_learning_guide_assets%2Fdocker_console_build.mp4 >}}
+{{< video assets/img/docker_console_build.mp4 >}}
 
 ## Command Transcript
 
