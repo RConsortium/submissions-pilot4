@@ -4,6 +4,7 @@ format:
   html:
     toc: true
     echo: false
+    link-external-newwindow: true
 ---
 
 # Introduction
@@ -19,6 +20,8 @@ A pre-requisite for running the Docker container runtime on a Windows computer i
 ::: {.callout-tip}
 If your organization's IT department is responsible for installing WSL, then you may not need to follow these instructions and can proceed to the Docker installation section.
 :::
+
+{{< revealjs "materials/wsl-setup-resources/index.html" height="420px" width="747px" class="ratio ratio-16x9" >}}
 
 1. Click on the Windows start menu and in the search bar enter `Turn Windows Features on or off`. A new entry should appear in the list of results corresponding to this setting. Click Open to proceed.
 2. A new window appears with a series of options with checkboxes to enable or disable them. Find the options `Virtual Machine Platform` and `Windows Subsystem for Linux` and select their respective check boxes to enable these features. Click the OK button to proceed.
@@ -37,6 +40,8 @@ Depending on your version of Windows, you may need to perform an additional upda
 
 ## Installing Ubuntu Linux
 
+{{< revealjs "materials/ubuntu-setup-resources/index.html" height="420px" width="747px" class="ratio ratio-16x9" >}}
+
 1. Launch the Microsoft Store, If ths is the first time launching the store, the tool may take a minute to launch.
 2. In the search bar, type `Ubuntu`. In the search results, select **Ubuntu 24.04.1 LTS**.
 3. In the next page that displays more information about Ubuntu 24.04.01 LTS, press the Get button to install the distribution. Depending on network bandwidth the procedure may take a few minutes.
@@ -52,6 +57,10 @@ Depending on your version of Windows, you may need to perform an additional upda
 
 ## Installing Docker
 
+After installing WSL on your Windows machine, you are now ready to install the Docker container runtime. While the [Docker Desktop](https://www.docker.com/products/docker-desktop/) is an available option, the utility can prove to be unstable in certain Windows machines. The recommended approach for this Pilot is to install the Docker community edition directly on the Ubuntu Linux virtual machine powered by WSL.
+
+To see a demonstration of the installation commands, click the **Demonstration** tab below and play the short terminal screencast. Click the **Command Transcript** tab to view the required commands required.
+
 ::: {.panel-tabset}
 ## Demonstration
 
@@ -60,6 +69,8 @@ Depending on your version of Windows, you may need to perform an additional upda
 ## Command Transcript
 
 Here is a list of the key commands, note that you will hit Enter after each command. Comments are denoted by the lines beginning with `#` and do not need to be entered. Also note that the first time you run a command involving `sudo` that you will need to enter the password you created for your default UNIX account in the virtual machine. Subsequent commands involving `sudo` will not require the password in the same session.
+
+To begin, ensure you are connected to the Ubuntu Linux virtual machine by launching the Ubuntu Linux application, which will open a new terminal window connected to the virtual machine.
 
 ``` sh
 # Add Docker's official GPG key

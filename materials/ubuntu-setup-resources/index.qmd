@@ -1,0 +1,23 @@
+---
+title: "Ubuntu Setup Screenshots"
+format: 
+  revealjs:
+    incremental: true
+    slide-number: c/t # c/t | c | h/v | h.v
+    slide-tone: false #true
+    code-line-numbers: false
+    history: true
+    controls: true
+---
+
+# Install Ubuntu
+
+## {background-image="assets/screenshots/microsoft_store_ubuntu_search.png" background-size="contain"}
+
+## {background-image="assets/screenshots/microsoft_store_ubuntu_entry.png" background-size="contain"}
+
+## {background-image="assets/screenshots/windows_start_menu_ubuntu_entry.png" background-size="contain"}
+
+## {background-image="assets/screenshots/windows_ubuntu_launch_installation.png" background-size="contain"}
+
+## {background-image="assets/screenshots/windows_ubuntu_launch_post_installation.png" background-size="contain"}
