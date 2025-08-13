@@ -55,9 +55,7 @@ Depending on your version of Windows, you may need to perform an additional upda
 ::: {.panel-tabset}
 ## Demonstration
 
-::: {.callout-note}
-Demo screencast forthcoming
-:::
+{{< video assets/img/ubuntu_install_docker.mp4 >}}
 
 ## Command Transcript
 
