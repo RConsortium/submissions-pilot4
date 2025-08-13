@@ -48,11 +48,13 @@ Enter
 Sleep 1s
 Type "sudo apt update"
 Enter
-Sleep 4s
+Wait+Line /eric/
+Sleep 1s
 Type "sudo apt install -y ca-certificates curl"
 Sleep 1s
 Enter
-Sleep 8s
+Wait+Line /eric/
+Sleep 2s
 
 Hide
 Type "clear"
@@ -65,7 +67,7 @@ Sleep 1s
 Enter
 Sleep 1s
 Type "sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc"
-Sleep 1s
+Sleep 2s
 Enter
 Sleep 1s
 Type "sudo chmod a+r /etc/apt/keyrings/docker.asc"
@@ -110,7 +112,8 @@ Sleep 1s
 Type "sudo apt update"
 Sleep 1s
 Enter
-Sleep 4s
+Wait+Line /eric/
+Sleep 2s
 
 Hide
 Type "clear"
@@ -124,7 +127,7 @@ Enter
 Type "sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
 Sleep 1s
 Enter
-Wait
+Wait+Line@80s /eric/
 Sleep 2s
 
 Hide
