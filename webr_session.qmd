@@ -1,0 +1,46 @@
+---
+title: "Pilot 4 Learning Session Notes: WebAssembly Technology"
+format:
+  html:
+    toc: true
+    echo: false
+---
+
+# Introduction
+
+This guide contains technical details and practical explanations for the WebAssembly technology at the core of the Pilot 4 project. While the Analysis Date Reviewers Guide (ADRG) contains specific instructions for setting up the necessary software and execution to launch the Shiny application included in the Pilot, the guide lacks background information on the key concepts behind WebAssembly as well as advice for debugging issues if the execution procedures were not successful. The content in this guide serves as a companion to the Pilot 4 Learning Sessions with members of the Submissions Working Group held on October 3rd, 2025.
+
+::: {.callout-warning collapse="false"}
+## Session Recordings Pending
+
+The recordings for each learning session will be published on this page when they are available.
+:::
+
+
+::: {.callout-tip collapse="false"}
+## Assorted links
+
+* <https://emscripten.org/index.html>
+* <https://collabnix.com/wasm-explained-to-a-5-years-old/>
+* <https://dev.to/baduit/port-it-to-the-web-with-web-assembly-and-emscripten-5c7k>
+* <https://pyodide.org/en/stable/>
+* <https://docs.r-wasm.org/webr/latest/>
+* <https://posit-dev.github.io/r-shinylive/>
+
+:::
+
+# Key Concepts
+
+## Definitions
+
+* __JavaScript__: A programming language uniquely suited to execute complex features in the context of a web environment, such as web-based applications executed inside a web browser. JavaScript is one of the three layers of web technologies alongside **Hypertext Markup Language** (HTML) and **Cascading Style Sheets** (CSS) utilized in practically every web application. Unlike R and Python which have one "central" language runtime environemt (i.e. you can simply download and install R and Python on your computer), JavaScript itself has many possible runtime variantions that extend the default JavaScript language slightly differently from each other. One of the most popular JavaScript runtime environments is [Node.js](https://nodejs.org/en/).
+
+* __Server__: A physical or virtual computer with the necessary software to execute web applications in dedicated processes. These servers are typically running 24 hours a day, 7 days a week. A server could range from a personal computer at home all the way to a large group of servers as part of on-premises networks. With respect to Shiny applications, a server must have R available to execute the Shiny application.
+
+* __WebAssembly__:  A special language which compiles code written in JavaScript to a binary or "bytecode" format which can be run anywhere, specically within a web browser or in a cloud architecture hosting web content. This concept may also be referred to as **WASM** (Web + Assembly).
+
+* __Emscripten__: A custom software compiler that translates code written in C++ into the necessary "bytecode" format compatible with WebAssembly. The emscripten toolchain is required for WebAssembly to translate code written in additional languages that may involve C++ in their source code (such as Python and R) and are not written in native JavaScript.
+
+* __webR__: A version of the R language compiled for web browsers and the popular JavaScript framework Node.js using WebAssembly and Emscripten. A similar utility exists to translate code written in Python to WebAssembly called [Pyodide](https://pyodide.org/en/stable/).
+
+

@@ -17,6 +17,8 @@ website:
             text: Container Guide
           - href: docker_windows_setup.qmd
             text: Installing WSL & Docker Guide
+          - href: webr_session.qmd
+            text: WebAssembly Guide
       - text: "Site Development"
         menu: 
           - href: minutes_prep.qmd
