@@ -26,6 +26,7 @@ The recordings for each learning session will be published on this page when the
 * <https://pyodide.org/en/stable/>
 * <https://docs.r-wasm.org/webr/latest/>
 * <https://posit-dev.github.io/r-shinylive/>
+* <https://rpodcast.github.io/shiny-webr-posit2024/#/section>
 
 :::
 
@@ -33,14 +34,91 @@ The recordings for each learning session will be published on this page when the
 
 ## Definitions
 
-* __JavaScript__: A programming language uniquely suited to execute complex features in the context of a web environment, such as web-based applications executed inside a web browser. JavaScript is one of the three layers of web technologies alongside **Hypertext Markup Language** (HTML) and **Cascading Style Sheets** (CSS) utilized in practically every web application. Unlike R and Python which have one "central" language runtime environemt (i.e. you can simply download and install R and Python on your computer), JavaScript itself has many possible runtime variantions that extend the default JavaScript language slightly differently from each other. One of the most popular JavaScript runtime environments is [Node.js](https://nodejs.org/en/).
+The underlying principles and technology behind WebAssembly are a unique blend of existing ways programming code are executed, but in a novel way tailored to web-based solutions. Before we go further, it is important to define key terminology referenced throughout this guide:
 
-* __Server__: A physical or virtual computer with the necessary software to execute web applications in dedicated processes. These servers are typically running 24 hours a day, 7 days a week. A server could range from a personal computer at home all the way to a large group of servers as part of on-premises networks. With respect to Shiny applications, a server must have R available to execute the Shiny application.
-
-* __WebAssembly__:  A special language which compiles code written in JavaScript to a binary or "bytecode" format which can be run anywhere, specically within a web browser or in a cloud architecture hosting web content. This concept may also be referred to as **WASM** (Web + Assembly).
-
+* __JavaScript__: A programming language uniquely suited to execute complex features in the context of a web environment, such as web-based applications executed inside a web browser. JavaScript is one of the three layers of web technologies alongside **Hypertext Markup Language** (HTML) and **Cascading Style Sheets** (CSS) utilized in practically every web application. Unlike R and Python which have one "central" language runtime environment (i.e. you can simply download and install R and Python on your computer), JavaScript itself has many possible runtime variations that extend the default JavaScript language slightly differently from each other. One of the most popular JavaScript runtime environments is [Node.js](https://nodejs.org/en/). One of the biggest advantages of the [`{shiny}`](https://shiny.posit.co) R package is that you can create web applications powered by just R code, which is translated to the necessary combination of HTML, CSS, and JavaScript automatically for you. 
+* __Server__: A physical or virtual computer with the necessary software to execute web applications in dedicated processes. These servers are typically running 24 hours a day, 7 days a week. A server could range from a personal computer at home, a group of servers as part of an organization's infrastructure, all the way to a large collection of potentially thousands of servers powering a data center used by cloud computing. With respect to Shiny applications, a server must have R available to execute the Shiny application as an R process.
+* __WebAssembly__:  A special language which compiles code written in JavaScript to a binary or "bytecode" format which can be run anywhere, specically within a web browser or in a cloud architecture hosting web content. This concept is also be referred to as **WASM** (Web + Assembly).
 * __Emscripten__: A custom software compiler that translates code written in C++ into the necessary "bytecode" format compatible with WebAssembly. The emscripten toolchain is required for WebAssembly to translate code written in additional languages that may involve C++ in their source code (such as Python and R) and are not written in native JavaScript.
+* __webR__: A version of the R language compiled for web browsers and the popular JavaScript framework Node.js using WebAssembly and Emscripten. A similar utility exists to translate code written in Python to WebAssembly called [Pyodide](https://pyodide.org/en/stable/). More information on webR can be found on the package's [documentation site](https://docs.r-wasm.org/webr/latest/).
 
-* __webR__: A version of the R language compiled for web browsers and the popular JavaScript framework Node.js using WebAssembly and Emscripten. A similar utility exists to translate code written in Python to WebAssembly called [Pyodide](https://pyodide.org/en/stable/).
+## Traditional R Code Execution
 
+Inside each of the Submission Pilots, R code has been sent as part of the submission package to produce key deliverables. With the exception of the Docker container portion of Pilot 4, the Analysis Data Reviewers Guide (ADRG) included a detailed procedure to set up the R code execution environment locally on a computer. For instance, Submission Pilot 2 focused on delivering a Shiny application that could be executed locally on a computer with R and the required R packages available. At a high level, the required procedure for preparing to execute the Shiny application involved the following steps in Pilot 2:
+
+* Extract the submission bundle to a local directory.
+* Install the required version of R.
+* Optionally install the [RStudio IDE](https://posit.co/products/open-source/rstudio/?sid=1).
+* Install the Rtools utility to assist with compiling R package source code involving other languages such as C++ on a Windows computer.
+* Install the `{renv}` R package to restore the specific versions of R packages required by the application.
+* Run the Shiny application within an R process, either through the RStudio IDE itself or the R console via `shiny::runApp()`.
+
+The key point in the above framework is the combination of R (installed on your computer) along with the Shiny package and additional packages, is the virtual engine that powers the application process. You can consider this a traditional method of executing R code ever since R was first released almost 25 years ago. The R runtime (included when you install R) takes care of translating R code in to the lower-level language (often referred to as assembly language) that computer processes use to perform the required operations.
+
+## WebAssembly R Code Execution
+
+In recent years, WebAssembly has brought a new method of executing program code. By compiling programming code to a variant of assembly-like language optimized for execution in a plaform-independent format, that opens the door for not just a typical personal computer as the runtime host. Modern web browsers such as the one you are using to view this documentation, have the computing power necessary to run WebAssembly code in a completely sandboxed environment (meaning it will not interact with any other sytsem process on your computer). To state this another way, the web browser becomes that virtual engine that powers an application process.
+
+For example, consider the following code of a Shiny application illustrating the distribution of variables inside the Palmer Penguins data set:
+
+```{r}
+#| label: shinylive-demo-code
+#| echo: true
+#| eval: false
+
+library(ggplot2)
+library(palmerpenguins)
+library(dplyr)
+library(bslib)
+data(penguins, package = "palmerpenguins")
+
+ui <- page_sidebar(
+  title = "Penguins dashboard",
+  sidebar = sidebar(
+    title = "Histogram controls",
+    varSelectInput(
+      "var", "Select variable",
+      dplyr::select_if(penguins, is.numeric)
+    ),
+    numericInput("bins", "Number of bins", 30)
+  ),
+  card(
+    card_header("Histogram"),
+    plotOutput("p")
+  )
+)
+
+server <- function(input, output) {
+  output$p <- renderPlot({
+    ggplot(penguins) +
+      geom_histogram(aes(!!input$var), bins = input$bins) +
+      theme_bw(base_size = 20)
+  })
+}
+
+shinyApp(ui, server)
+```
+
+To execute this code with the traditional method, R along with the required packages would need to be installed on your computer, just to run the application locally. To share the application with others, a server-based deployment platform such as Posit Connect would need to be used to host the application using a traditional **server-based** process. 
+
+With the power of WebAssembly, this application can actually be execute by your web browser:
+
+```{r shinylive-url, echo = FALSE, eval = TRUE, results = "asis"}
+code <- paste0(
+  c(knitr::knit_code$get("shinylive-demo-code")),
+  collapse = "\n"
+)
+
+url <- roxy.shinylive::create_shinylive_url(code)
+```
+
+```{r shinylive_iframe, echo = FALSE, eval = TRUE, out.width = '125%', out.extra = 'style = "position: relative; z-index:1"', eval = knitr::is_html_output()}
+knitr::include_url(url, height = "800px")
+```
+
+For convenience, the above application is rendered by using the [shinylive](https://github.com/posit-dev/shinylive) web assets library, but it is important to note the following:
+
+::: {.callout-tip collapse="false"}
+All of the necessary processes used to execute the application are being driven by WebAssembly running **directly inside your web browser**.
+:::
 
