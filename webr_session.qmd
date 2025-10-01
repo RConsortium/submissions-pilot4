@@ -119,6 +119,36 @@ knitr::include_url(url, height = "800px")
 For convenience, the above application is rendered by using the [shinylive](https://github.com/posit-dev/shinylive) web assets library, but it is important to note the following:
 
 ::: {.callout-tip collapse="false"}
-All of the necessary processes used to execute the application are being driven by WebAssembly running **directly inside your web browser**.
+All of the necessary processes used to execute the application are being driven by WebAssembly running **directly inside your web browser**. There is no interaction with any version of R directly installed on the computer.
 :::
 
+## Notable Differences
+
+We have outlined above what may be considered the biggest difference between traditional installations of a programming language runtimes on a computer versus WebAssembly. With respect to the R language itself, here are additional differences that are worth noting before we address the Pilot 4 WebAssembly Shiny application.
+
+### Package Architecture and Repositories
+
+In each of the previous pilots, the R packages required for executing the submission programs were downloaded from the Comprehensive R Archive Network (CRAN) repository, which is the default repository for every R installation. All mirrors of the CRAN repository offer multiple architectures for a given package:
+
+* Binary installer for Windows
+* Binary installer for MacOS
+* Source archive for Linux distributions
+
+For example, here are the available package installers on CRAN for the [`{shiny}`](https://cran.r-project.org/package=shiny) package at the time of this writing:
+
+![](assets/img/shiny_cran_installers.png)
+
+In the case of Linux, any R package that involves other lower-level programming languages in its source code (such as C++, Fortran, and Rust) require the operating system to utilize a compiler to translate the source code in to a binary format for use with R. In the case of Windows and Mac OS X, the R packages have been **pre-compiled** such that the operating system does not have to re-compile the package before it can be used with R.
+
+A logical question to ask is whether any of these existing package versions can also be used with WebAssembly. The answer to that question is no, for the following reason: WebAssembly combined with the emscripten compiler handle the process of compiling programming code differently than any of the compilers used to produce the binary package versions for any of the traditional operating systems. Therefore, R packages have to be compiled different in order to be compatible with WebAssembly. The WebR software for WebAssembly has its own default R package repository at <https://repo.r-wasm.org/>, in which a large number of packages from the traditional CRAN repository have already been compiled for use with WebAssembly. 
+
+::: {.callout-tip collapse="false"}
+## Package Compatibility
+
+While the WebR package repository makes every effort to support all packages from CRAN, there are certain R packages that are not able to be compiled successfully for use with WebAssembly. The list of non-supported packages has decreased substantially since the initial release of WebR, but certain packages that were used in the Pilot 2 version of the Shiny application were not supported by WebR when Pilot 4 was developed.
+:::
+
+### Access to Files
+
+R on a traditional operating system has potential access to any part of the computer's file system that the logged-in user has access to outside of R. For example, the R programs used in the other submission pilots contained code for importing SAS transport data files (with extension `.xpt`) located on the file system of the computer. However, processes executed under WebAssembly are confined to the available file systems within the web browser's sandboxed environment. It is possible to manually create connections to additional files or directories through a process called **mounting**, but not all of the available options are compatible with a web browser's sandboxed environment. In the case of Pilot 4, custom code was developed to mount the necessary data files used by the Shiny application.
+ 
