@@ -9,7 +9,9 @@ rix(
     "dplyr",
     "rmarkdown",
     "knitr",
-    "rix"
+    "rix",
+    "roxy.shinylive",
+    "shinylive"
   ),
   system_pkgs = "quarto",
   ide = "none",

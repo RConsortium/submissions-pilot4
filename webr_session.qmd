@@ -1,0 +1,302 @@
+---
+title: "Pilot 4 Learning Session Notes: WebAssembly Technology"
+format:
+  html:
+    toc: true
+    echo: false
+---
+
+# Introduction
+
+This guide contains technical details and practical explanations for the WebAssembly technology at the core of the Pilot 4 project. While the [Analysis Date Reviewers Guide](https://rpodcast.quarto.pub/pilot4-webassembly-adrg/) (ADRG) contains specific instructions for setting up the necessary software and execution to launch the Shiny application included in the Pilot, the guide lacks background information on the key concepts behind WebAssembly as well as advice for debugging issues if the execution procedures were not successful. The content in this guide serves as a companion to the Pilot 4 Learning Sessions with members of the Submissions Working Group held on October 3rd, 2025.
+
+::: {.callout-warning collapse="false"}
+## Session Recording
+
+The recording for this learning session will be published on this page when available.
+:::
+
+# Key Concepts
+
+## Definitions
+
+The underlying principles and technology behind WebAssembly are a unique blend of existing ways programming code are executed, but in a novel way tailored to web-based solutions. Before we go further, it is important to define key terminology referenced throughout this guide:
+
+* __JavaScript__: A programming language uniquely suited to execute complex features in the context of a web environment, such as web-based applications executed inside a web browser. JavaScript is one of the three layers of web technologies alongside **Hypertext Markup Language** (HTML) and **Cascading Style Sheets** (CSS) utilized in practically every web application. Unlike R and Python which have one "central" language runtime environment (i.e. you can simply download and install R and Python on your computer), JavaScript itself has many possible runtime variations that extend the default JavaScript language slightly differently from each other. One of the most popular JavaScript runtime environments is [Node.js](https://nodejs.org/en/). One of the biggest advantages of the [`{shiny}`](https://shiny.posit.co) R package is that you can create web applications powered by just R code, which is translated to the necessary combination of HTML, CSS, and JavaScript automatically for you. 
+* __Server__: A physical or virtual computer with the necessary software to execute web applications in dedicated processes. These servers are typically running 24 hours a day, 7 days a week. A server could range from a personal computer at home, a group of servers as part of an organization's infrastructure, all the way to a large collection of potentially thousands of servers powering a data center used by cloud computing. With respect to Shiny applications, a server must have R available to execute the Shiny application as an R process.
+* __WebAssembly__:  A special language which compiles code written in JavaScript to a binary or "bytecode" format which can be run anywhere, specically within a web browser or in a cloud architecture hosting web content. This concept is also be referred to as **WASM** (Web + Assembly).
+* __Emscripten__: A custom software compiler that translates code written in C++ into the necessary "bytecode" format compatible with WebAssembly. The emscripten toolchain is required for WebAssembly to translate code written in additional languages that may involve C++ in their source code (such as Python and R) and are not written in native JavaScript. Additional details can be found on the [emscripten](https://emscripten.org/index.html) documentation portal.
+* __webR__: A version of the R language compiled for web browsers and the popular JavaScript framework Node.js using WebAssembly and Emscripten. A similar utility exists to translate code written in Python to WebAssembly called [Pyodide](https://pyodide.org/en/stable/). More information on webR can be found on the package's [documentation site](https://docs.r-wasm.org/webr/latest/).
+
+## Traditional R Code Execution
+
+Inside each of the Submission Pilots, R code has been sent as part of the submission package to produce key deliverables. With the exception of the Docker container portion of Pilot 4, the Analysis Data Reviewers Guide (ADRG) included a detailed procedure to set up the R code execution environment locally on a computer. For instance, Submission Pilot 2 focused on delivering a Shiny application that could be executed locally on a computer with R and the required R packages available. At a high level, the required procedure for preparing to execute the Shiny application involved the following steps in Pilot 2:
+
+* Extract the submission bundle to a local directory.
+* Install the required version of R.
+* Optionally install the [RStudio IDE](https://posit.co/products/open-source/rstudio/?sid=1).
+* Install the Rtools utility to assist with compiling R package source code involving other languages such as C++ on a Windows computer.
+* Install the `{renv}` R package to restore the specific versions of R packages required by the application.
+* Run the Shiny application within an R process, either through the RStudio IDE itself or the R console via `shiny::runApp()`.
+
+The key point in the above framework is the combination of R (installed on your computer) along with the Shiny package and additional packages, is the virtual engine that powers the application process. You can consider this a traditional method of executing R code ever since R was first released almost 25 years ago. The R interpreter (included when you install R) takes care of translating R code in to the lower-level language (often referred to as assembly language) that computer processes use to perform the required operations.
+
+## WebAssembly R Code Execution
+
+In recent years, WebAssembly has brought a new method of executing program code. By compiling programming code to a variant of assembly-like language optimized for execution in a plaform-independent format, that opens the door for not just a typical personal computer as the runtime host. Modern web browsers such as the one you are using to view this documentation, have the computing power necessary to run WebAssembly code in a completely sandboxed environment (meaning it will not interact with any other sytsem process on your computer). To state this another way, the web browser becomes that virtual engine that powers an application process.
+
+For example, consider the following code of a Shiny application illustrating the distribution of variables inside the Palmer Penguins data set:
+
+```{r}
+#| label: shinylive-demo-code
+#| echo: true
+#| eval: false
+
+library(ggplot2)
+library(palmerpenguins)
+library(dplyr)
+library(bslib)
+data(penguins, package = "palmerpenguins")
+
+ui <- page_sidebar(
+  title = "Penguins dashboard",
+  sidebar = sidebar(
+    title = "Histogram controls",
+    varSelectInput(
+      "var", "Select variable",
+      dplyr::select_if(penguins, is.numeric)
+    ),
+    numericInput("bins", "Number of bins", 30)
+  ),
+  card(
+    card_header("Histogram"),
+    plotOutput("p")
+  )
+)
+
+server <- function(input, output) {
+  output$p <- renderPlot({
+    ggplot(penguins) +
+      geom_histogram(aes(!!input$var), bins = input$bins) +
+      theme_bw(base_size = 20)
+  })
+}
+
+shinyApp(ui, server)
+```
+
+To execute this code with the traditional method, R along with the required packages would need to be installed on your computer, just to run the application locally. To share the application with others, a server-based deployment platform such as Posit Connect would need to be used to host the application using a traditional **server-based** process. 
+
+With the power of WebAssembly, this application can actually be executed and viewed on this very web page:
+
+```{r shinylive-url, echo = FALSE, eval = TRUE, results = "asis"}
+code <- paste0(
+  c(knitr::knit_code$get("shinylive-demo-code")),
+  collapse = "\n"
+)
+
+url <- roxy.shinylive::create_shinylive_url(code)
+```
+
+```{r shinylive_iframe, echo = FALSE, eval = TRUE, out.width = '125%', out.extra = 'style = "position: relative; z-index:1"', eval = knitr::is_html_output()}
+knitr::include_url(url, height = "800px")
+```
+
+For convenience, the above application is rendered by using the [shinylive](https://github.com/posit-dev/shinylive) web assets library, but it is important to note the following:
+
+::: {.callout-tip collapse="false"}
+All of the necessary processes used to execute the application are being driven by WebAssembly running **directly inside your web browser**. There is no interaction with any version of R directly installed on the computer.
+:::
+
+## Notable Differences
+
+We have outlined above what may be considered the biggest difference between traditional installations of a programming language runtimes on a computer versus WebAssembly. With respect to the R language itself, here are additional differences that are worth noting before we address the Pilot 4 WebAssembly Shiny application.
+
+### Package Architecture and Repositories
+
+In each of the previous pilots, the R packages required for executing the submission programs were downloaded from the Comprehensive R Archive Network (CRAN) repository, which is the default repository for every R installation. All mirrors of the CRAN repository offer multiple architectures for a given package:
+
+* Binary installer for Windows
+* Binary installer for MacOS
+* Source archive for Linux distributions
+
+For example, here are the available package installers on CRAN for the [`{shiny}`](https://cran.r-project.org/package=shiny) package at the time of this writing:
+
+![](assets/img/shiny_cran_installers.png)
+
+In the case of Linux, any R package that involves other lower-level programming languages in its source code (such as C++, Fortran, and Rust) require the operating system to utilize a compiler to translate the source code in to a binary format for use with R. In the case of Windows and Mac OS X, the R packages have been **pre-compiled** such that the operating system does not have to re-compile the package before it can be used with R.
+
+A logical question to ask is whether any of these existing package versions can also be used with WebAssembly. The answer to that question is no, for the following reason: WebAssembly combined with the emscripten compiler handle the process of compiling programming code differently than any of the compilers used to produce the binary package versions for any of the traditional operating systems. Therefore, R packages have to be compiled different in order to be compatible with WebAssembly. The WebR software for WebAssembly has its own default R package repository at <https://repo.r-wasm.org/>, in which a large number of packages from the traditional CRAN repository have already been compiled for use with WebAssembly. 
+
+::: {.callout-tip collapse="false"}
+## Package Compatibility
+
+While the WebR package repository makes every effort to support all packages from CRAN, there are certain R packages that are not able to be compiled successfully for use with WebAssembly. The list of non-supported packages has decreased substantially since the initial release of WebR, but certain packages that were used in the Pilot 2 version of the Shiny application were not supported by WebR when Pilot 4 was developed.
+:::
+
+### Access to Files
+
+R on a traditional operating system has potential access to any part of the computer's file system that the logged-in user has access to outside of R. For example, the R programs used in the other submission pilots contained code for importing SAS transport data files (with extension `.xpt`) located on the file system of the computer. However, processes executed under WebAssembly are confined to the available file systems within the web browser's sandboxed environment. It is possible to manually create connections to additional files or directories through a process called **mounting**, but not all of the available options are compatible with a web browser's sandboxed environment. In the case of Pilot 4, custom code was developed to mount the necessary data files used by the Shiny application as part of the preparation for execution.
+
+### Local Application Execution
+
+Shiny applications built with the `{shiny}` package can be executed locally within R using the function [`runApp()`](https://shiny.posit.co/r/reference/shiny/latest/runapp.html) (which the RStudio IDE supports with a conveninent user interface). This function is both translating the R code behind the application to the necessary JavaScript code for a web browser process, as well as launching its own web server process such that the application is viewable either in RStudio's viewer window or directly in a locally installed web browser. With `{shiny}` being an R package in this scenario, the entire process must be done in R itself.
+
+At first glance, the execution of a Shiny application compiled for WebAssembly is similar in the overall procedure, but the steps required are different. In general the procedure is the following:
+
+1. Create the R code for a Shiny application as you would for a traditional R-based Shiny application.
+2. Using the `{shinylive}` R package, create a customized export of the application that converts the application code into customized JavaScript ready for use with a WebAssembly process.
+3. Launch a web server process which is pointed to the directory containing the exported version of the application, and visit the web address in a local web browser.
+4. The web browser performs the rest of the compilation process before rendering the application as usual.
+
+A key point to emphasis in step (3) is that the local web server process does not necessarily need to be launched within R itself. Once the application is compiled to be compatible with a WebAssembly process, the "engine" required to render the application no longer needs to be based in R. Out of convenience, a custom web server process can be launched in R using the function `runStaticServer()` function from the `{httpuv}` R package, but many other programming languages offer simililar functionality (such as the `http.server` function from Python).
+
+::: {.callout-tip collapse="false"}
+## Why use a web server process?
+
+After a Shiny application is compiled for use with WebAssembly, in which the local web browser will take care of the remaining parts of rendering the application, one may ask why they cannot simply point their web browser to view the lcoal HTML files of the application directly, like what is possible if a HTML-based report created with a framework like [R Markdown](https://rmarkdown.rstudio.com/) or [Quarto](https://quarto.org/) as a **self-contained** resource, in which all of the assets required by the report are inserted directly inside the HTML file. The answer is somewhat complicated, but in summary modern web browsers enforce strict security policies when rendering web sites and applications that involve complex operations such as WebAssembly processes. The requirements for these security measures cannot be satisfied when simply opening an HTML file in the web browser. A standalone HTML report does not require the use of WebAssembly to render its contents, since they are already ready to go for the web browser.
+:::
+
+# Pilot 4 WebAssembly Information
+
+With a solid foundation of the important concepts and methods to execute WebAssembly applications, we can take a closer look at how Pilot 4 is constructed to build and execute the Shiny application used in Pilot 2. It was also assumed that the web browser used to view the application is [Microsoft Edge](https://www.microsoft.com/en-us/edge).
+
+## Modifications to Application Code
+
+As highlighted earlier, not every R package available on the CRAN repository is compatible with WebAssembly. Two packages in particular were not compatible at the time of development:
+
+* `{golem}`: R package to construct a Shiny application as a package
+* `{teal}`: R package providing modules tailored to clinical data exploration. The Pilot 2 application used the filtering module.
+
+As a result, the R code for the application was modified to remove dependencies on these packages. The R package used to organize the applicaiton code changed from `{golem}` to `{rhino}` for ease of development, but using `{rhino}` is not strictly required for a Shiny application to be compatible with WebAssembly. A custom Shiny module was created which did not require the Teal framework to replicate the filtering capabilities. You can view the structure of the application files in the box below.
+
+::: {.callout-tip collapse="false"}
+## Application Structure
+
+```{r}
+#| label: app-dir-tree
+#| echo: false
+#| output: true
+withr::with_dir("_dev", fs::dir_tree("app"))
+```
+
+:::
+
+## Building Application
+
+The `{shinylive}` package was used to create the WebAssembly-compatible export of the application code, but this Pilot added additional customizations to assist the process, most notably code to copy over the SAS data files to a directory that would be recognized by the WebAssembly process within a local web browser.
+
+::: {.callout-tip collapse="false"}
+## `build_app` 
+
+```r
+#' Assemble web-assembly version of application
+#'
+#' @param dir_source path to the directory containing the traditional (R)
+#'   version of the application files. By default the path is to a directory
+#'   called `app` in the current working directory where this function is
+#'   executed.
+#' @param dir_build path to the new directory that will contain the compiled
+#'   application files. By default this path is to a directory called `_site`
+#'   in the current working directory where this function is executed.
+#' @param overwrite flag to overwrite the existing compiled application files.
+#'   Default is `TRUE`.
+#' @param quiet flag to suppress compilation messages and progress indicators
+#'   in the R console while the function executes. Default is `FALSE`.
+#' @return None, as the function is used for the "side effect" of compiling
+#'   the application
+#' @example
+#' \dpntrun{
+#' build_app()
+#' }
+build_app <- function(dir_source = "app", dir_build = "_site", overwrite = TRUE, quiet = FALSE) {
+  if (isFALSE(overwrite) && fs::dir_exists(dir_build)) {
+    withr::with_options(
+      list(rlang_backtrace_on_error = "none"),
+      cli::cli_abort(
+        c("Output directory {dir_build} already exists.",
+          "Delete the directory or set {.code overwrite=TRUE}"
+        ),
+        call = NULL
+      )
+    )
+  }
+
+  temp_dir <- fs::file_temp("fda-pilot")
+  on.exit(fs::dir_delete(temp_dir))
+  temp_dir_source <- fs::path_join(c(temp_dir, "src"))
+  temp_dir_source_www <- fs::path_join(c(temp_dir_source, "www"))
+  temp_dir_www <- fs::path_join(c(temp_dir, "www"))
+  temp_dir_out <- fs::path_join(c(temp_dir, "out"))
+
+  fs::dir_create(temp_dir)
+  fs::dir_copy(dir_source, temp_dir_source)
+  if (fs::dir_exists(temp_dir_source_www)) {
+    fs::file_move(temp_dir_source_www, temp_dir_www) # Move www out for shinylive::export to work cleanly
+  }
+
+  shinylive::export(temp_dir_source, temp_dir_out, quiet = quiet, wasm_packages = FALSE)
+  if (fs::dir_exists(temp_dir_www)) {
+    fs::dir_walk(temp_dir_www, \(f) fs::file_move(f, temp_dir_out))
+  }
+
+  if (isTRUE(overwrite) && fs::dir_exists(dir_build)) {
+    fs::dir_delete(dir_build)
+  }
+  fs::dir_copy(temp_dir_out, dir_build)
+}
+```
+:::
+
+## Executing Application
+
+With the application source code converted to the format required by WebAssembly, another function was created to ease the process of running a custom web server process in R:
+
+::: {.callout-tip collapse="false"}
+## `run_app_webassembly`
+
+```r
+#' Execute web assembly version of the Shiny application
+#'
+#' @param dir path to the directory containing the compiled web-assembly
+#'   application files. By default this path is to a directory called
+#'   `_site` in the current working directory where this function is executed.
+#' @param port integer denoting the port used by the web process. Default is
+#'   `7654`, however this can be changed to any available port on your system
+#'   (typically in the 1000-9999 range).
+#' @return interactive web server process created by `httpuv::runStaticServer()`.
+#' @example
+#' \dontrun{
+#' run_app_webassembly()
+#' }
+run_app_webassembly <- function(dir = "_site", port = 7654) {
+  if (!fs::file_exists(fs::path(dir, "app.json"))) {
+    withr::with_options(
+      list(rlang_backtrace_on_error = "none"),
+      cli::cli_abort(
+        c("Webassembly application not detected in directory {dir}.",
+          "Run {.code build_app()} and try again"
+        ),
+        call = NULL
+      )
+    )
+  }
+
+  httpuv::runStaticServer(dir = dir, port = port, browse = FALSE)
+}
+```
+:::
+
+After executing this function, the R console will display a message indicating the specific web address to use for viewing the application in the web browser. By default this address will be `http://127.0.0.1:7654`. Upon entering this address in Microsoft Edge, the application loading screen appears, with messages informing the progress of installing the required R packages from the webR package repository. Depending on bandwidth, this process may require a minute or longer to complete. After the packages are installed, the application renders in the browser.
+
+::: {.callout-tip collapse="true"}
+## Assorted links
+
+* <https://emscripten.org/index.html>
+* <https://collabnix.com/wasm-explained-to-a-5-years-old/>
+* <https://dev.to/baduit/port-it-to-the-web-with-web-assembly-and-emscripten-5c7k>
+* <https://pyodide.org/en/stable/>
+* <https://docs.r-wasm.org/webr/latest/>
+* <https://posit-dev.github.io/r-shinylive/>
+* <https://rpodcast.github.io/shiny-webr-posit2024/#/section>
+:::
