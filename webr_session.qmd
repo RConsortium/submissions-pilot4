@@ -10,10 +10,11 @@ format:
 
 This guide contains technical details and practical explanations for the WebAssembly technology at the core of the Pilot 4 project. While the [Analysis Date Reviewers Guide](https://rpodcast.quarto.pub/pilot4-webassembly-adrg/) (ADRG) contains specific instructions for setting up the necessary software and execution to launch the Shiny application included in the Pilot, the guide lacks background information on the key concepts behind WebAssembly as well as advice for debugging issues if the execution procedures were not successful. The content in this guide serves as a companion to the Pilot 4 Learning Sessions with members of the Submissions Working Group held on October 3rd, 2025.
 
-::: {.callout-warning collapse="false"}
+::: {.callout-note collapse="false"}
 ## Session Recording
 
-The recording for this learning session will be published on this page when available.
+{{< video https://vimeo.com/1124252392 >}}
+
 :::
 
 # Key Concepts
@@ -24,7 +25,7 @@ The underlying principles and technology behind WebAssembly are a unique blend o
 
 * __JavaScript__: A programming language uniquely suited to execute complex features in the context of a web environment, such as web-based applications executed inside a web browser. JavaScript is one of the three layers of web technologies alongside **Hypertext Markup Language** (HTML) and **Cascading Style Sheets** (CSS) utilized in practically every web application. Unlike R and Python which have one "central" language runtime environment (i.e. you can simply download and install R and Python on your computer), JavaScript itself has many possible runtime variations that extend the default JavaScript language slightly differently from each other. One of the most popular JavaScript runtime environments is [Node.js](https://nodejs.org/en/). One of the biggest advantages of the [`{shiny}`](https://shiny.posit.co) R package is that you can create web applications powered by just R code, which is translated to the necessary combination of HTML, CSS, and JavaScript automatically for you. 
 * __Server__: A physical or virtual computer with the necessary software to execute web applications in dedicated processes. These servers are typically running 24 hours a day, 7 days a week. A server could range from a personal computer at home, a group of servers as part of an organization's infrastructure, all the way to a large collection of potentially thousands of servers powering a data center used by cloud computing. With respect to Shiny applications, a server must have R available to execute the Shiny application as an R process.
-* __WebAssembly__:  A special language which compiles code written in JavaScript to a binary or "bytecode" format which can be run anywhere, specically within a web browser or in a cloud architecture hosting web content. This concept is also be referred to as **WASM** (Web + Assembly).
+* __WebAssembly__:  A special language which compiles code written in JavaScript to a binary or "bytecode" format which can be run anywhere, specifically within a web browser or in a cloud architecture hosting web content. This concept is also be referred to as **WASM** (Web + Assembly).
 * __Emscripten__: A custom software compiler that translates code written in C++ into the necessary "bytecode" format compatible with WebAssembly. The emscripten toolchain is required for WebAssembly to translate code written in additional languages that may involve C++ in their source code (such as Python and R) and are not written in native JavaScript. Additional details can be found on the [emscripten](https://emscripten.org/index.html) documentation portal.
 * __webR__: A version of the R language compiled for web browsers and the popular JavaScript framework Node.js using WebAssembly and Emscripten. A similar utility exists to translate code written in Python to WebAssembly called [Pyodide](https://pyodide.org/en/stable/). More information on webR can be found on the package's [documentation site](https://docs.r-wasm.org/webr/latest/).
 
@@ -43,7 +44,7 @@ The key point in the above framework is the combination of R (installed on your 
 
 ## WebAssembly R Code Execution
 
-In recent years, WebAssembly has brought a new method of executing program code. By compiling programming code to a variant of assembly-like language optimized for execution in a plaform-independent format, that opens the door for not just a typical personal computer as the runtime host. Modern web browsers such as the one you are using to view this documentation, have the computing power necessary to run WebAssembly code in a completely sandboxed environment (meaning it will not interact with any other sytsem process on your computer). To state this another way, the web browser becomes that virtual engine that powers an application process.
+In recent years, WebAssembly has brought a new method of executing program code. By compiling programming code to a variant of assembly-like language optimized for execution in a plaform-independent format, that opens the door for not just a typical personal computer as the runtime host. Modern web browsers such as the one you are using to view this documentation, have the computing power necessary to run WebAssembly code in a completely sandboxed environment (meaning it will not interact with any other system process on your computer). To state this another way, the web browser becomes that virtual engine that powers an application process.
 
 For example, consider the following code of a Shiny application illustrating the distribution of variables inside the Palmer Penguins data set:
 
@@ -140,7 +141,7 @@ R on a traditional operating system has potential access to any part of the comp
 
 ### Local Application Execution
 
-Shiny applications built with the `{shiny}` package can be executed locally within R using the function [`runApp()`](https://shiny.posit.co/r/reference/shiny/latest/runapp.html) (which the RStudio IDE supports with a conveninent user interface). This function is both translating the R code behind the application to the necessary JavaScript code for a web browser process, as well as launching its own web server process such that the application is viewable either in RStudio's viewer window or directly in a locally installed web browser. With `{shiny}` being an R package in this scenario, the entire process must be done in R itself.
+Shiny applications built with the `{shiny}` package can be executed locally within R using the function [`runApp()`](https://shiny.posit.co/r/reference/shiny/latest/runapp.html) (which the RStudio IDE supports with a convenient user interface). This function is both translating the R code behind the application to the necessary JavaScript code for a web browser process, as well as launching its own web server process such that the application is viewable either in RStudio's viewer window or directly in a locally installed web browser. With `{shiny}` being an R package in this scenario, the entire process must be done in R itself.
 
 At first glance, the execution of a Shiny application compiled for WebAssembly is similar in the overall procedure, but the steps required are different. In general the procedure is the following:
 
@@ -149,12 +150,12 @@ At first glance, the execution of a Shiny application compiled for WebAssembly i
 3. Launch a web server process which is pointed to the directory containing the exported version of the application, and visit the web address in a local web browser.
 4. The web browser performs the rest of the compilation process before rendering the application as usual.
 
-A key point to emphasis in step (3) is that the local web server process does not necessarily need to be launched within R itself. Once the application is compiled to be compatible with a WebAssembly process, the "engine" required to render the application no longer needs to be based in R. Out of convenience, a custom web server process can be launched in R using the function `runStaticServer()` function from the `{httpuv}` R package, but many other programming languages offer simililar functionality (such as the `http.server` function from Python).
+A key point to emphasis in step (3) is that the local web server process does not necessarily need to be launched within R itself. Once the application is compiled to be compatible with a WebAssembly process, the "engine" required to render the application no longer needs to be based in R. Out of convenience, a custom web server process can be launched in R using the function `runStaticServer()` function from the `{httpuv}` R package, but many other programming languages offer similar functionality (such as the `http.server` function from Python).
 
 ::: {.callout-tip collapse="false"}
 ## Why use a web server process?
 
-After a Shiny application is compiled for use with WebAssembly, in which the local web browser will take care of the remaining parts of rendering the application, one may ask why they cannot simply point their web browser to view the lcoal HTML files of the application directly, like what is possible if a HTML-based report created with a framework like [R Markdown](https://rmarkdown.rstudio.com/) or [Quarto](https://quarto.org/) as a **self-contained** resource, in which all of the assets required by the report are inserted directly inside the HTML file. The answer is somewhat complicated, but in summary modern web browsers enforce strict security policies when rendering web sites and applications that involve complex operations such as WebAssembly processes. The requirements for these security measures cannot be satisfied when simply opening an HTML file in the web browser. A standalone HTML report does not require the use of WebAssembly to render its contents, since they are already ready to go for the web browser.
+After a Shiny application is compiled for use with WebAssembly, in which the local web browser will take care of the remaining parts of rendering the application, one may ask why they cannot simply point their web browser to view the local HTML files of the application directly, like what is possible if a HTML-based report created with a framework like [R Markdown](https://rmarkdown.rstudio.com/) or [Quarto](https://quarto.org/) as a **self-contained** resource, in which all of the assets required by the report are inserted directly inside the HTML file. The answer is somewhat complicated, but in summary modern web browsers enforce strict security policies when rendering web sites and applications that involve complex operations such as WebAssembly processes. The requirements for these security measures cannot be satisfied when simply opening an HTML file in the web browser. A standalone HTML report does not require the use of WebAssembly to render its contents, since they are already ready to go for the web browser.
 :::
 
 # Pilot 4 WebAssembly Information
@@ -168,7 +169,7 @@ As highlighted earlier, not every R package available on the CRAN repository is 
 * `{golem}`: R package to construct a Shiny application as a package
 * `{teal}`: R package providing modules tailored to clinical data exploration. The Pilot 2 application used the filtering module.
 
-As a result, the R code for the application was modified to remove dependencies on these packages. The R package used to organize the applicaiton code changed from `{golem}` to `{rhino}` for ease of development, but using `{rhino}` is not strictly required for a Shiny application to be compatible with WebAssembly. A custom Shiny module was created which did not require the Teal framework to replicate the filtering capabilities. You can view the structure of the application files in the box below.
+As a result, the R code for the application was modified to remove dependencies on these packages. The R package used to organize the application code changed from `{golem}` to `{rhino}` for ease of development, but using `{rhino}` is not strictly required for a Shiny application to be compatible with WebAssembly. A custom Shiny module was created which did not require the Teal framework to replicate the filtering capabilities. You can view the structure of the application files in the box below.
 
 ::: {.callout-tip collapse="false"}
 ## Application Structure
